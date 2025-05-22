@@ -35,6 +35,8 @@ export interface IBaseItem {
 export interface Asset extends IBaseItem {
     SYMBOL: string, //TODO FIX ON ENUM
     URI: string,
+    PRICE_USD?: number,
+    SPOT_MOVING_24_HOUR_CHANGE_PERCENTAGE_USD?: number,
     ASSET_TYPE: string
     NAME: string,
     LOGO_URL: string

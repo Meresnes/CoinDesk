@@ -15,7 +15,7 @@ export const assetService = createApi({
                     page: 1,
                     page_size: 10,
                     sort_direction: SortDirection.DESC,
-                    sort_by: SortBy.UPDATED_ON,
+                    sort_by: SortBy.PRICE_USD,
                     toplist_quote_asset: "USD",
                     ...paramsKeys,
                 }

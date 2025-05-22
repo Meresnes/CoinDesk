@@ -1,11 +1,18 @@
-import {Button, ButtonGroup, IconButton, Pagination, SkeletonText} from "@chakra-ui/react";
+import {
+    Avatar,
+    ButtonGroup, Flex,
+    IconButton, Pagination,
+    SkeletonText, Table,
+    Heading, Badge,
+    Stat, FormatNumber
+} from "@chakra-ui/react";
 import * as React from "react";
 import {LuChevronLeft, LuChevronRight} from "react-icons/lu";
 import {useDispatch, useSelector} from "react-redux";
 import {usePagination} from "../hooks/usePagination";
 import {useGetAssetListQuery} from "./services/assetService";
 import type {RootState} from "./store";
-import {decrement, increment} from "./store/countedSlice";
+import "./App.css";
 
 function App() {
     const count = useSelector((state: RootState) => state.counter.value);
@@ -28,30 +35,80 @@ function App() {
 
     return (
         <>
-            <h1>Vite + React</h1>
-            <Button variant="outline" onClick={() => dispatch(increment())}>
-                loadData
-            </Button>
-            <button onClick={() => dispatch(increment())}>
-                +1
-            </button>
-            <button onClick={() => dispatch(decrement())}>
-                -1
-            </button>
-            <span>{count || 0}</span>
-           
-            <>
-                <h1>List</h1>
-                {isFetching ? (
-                    <SkeletonText  noOfLines={10} gap="4" />
-                ): (
-                    <ul>
-                        {data?.LIST.map((item) => {
-                            return <li key={item.ID}>{item.NAME}</li>;
-                        })}
-                    </ul>
-                )
-                }
+            <Flex direction="column" alignItems="center" gap={5} paddingX={20} >
+                <Table.Root size="lg" >
+                    <Table.Header>
+                        <Table.Row>
+                            <Table.ColumnHeader>ID</Table.ColumnHeader>
+                            <Table.ColumnHeader>Name</Table.ColumnHeader>
+                            <Table.ColumnHeader>Category</Table.ColumnHeader>
+                            <Table.ColumnHeader>Price</Table.ColumnHeader>
+                        </Table.Row>
+                    </Table.Header>
+                    <Table.Body>
+                        {isFetching ? (
+                            <SkeletonText noOfLines={10} variant={"shine"} gap="4" width={"full"} />
+                        ): (data?.LIST.map((item) => {
+                            const priceChangeValue = item.SPOT_MOVING_24_HOUR_CHANGE_PERCENTAGE_USD || 0;
+                            const isPriceUp = priceChangeValue >= 0;
+                            const isPriceStand = priceChangeValue === 0;
+                            return (
+                                <Table.Row key={item.ID}>
+                                    <Table.Cell>
+                                        <FormatNumber
+                                            value={item.ID}
+                                        />
+                                    </Table.Cell>
+                                    <Table.Cell>
+                                        <Flex alignItems="center" gap={5}>
+                                            <Avatar.Root size={"xs"}>
+                                                <Avatar.Fallback name={item.NAME} />
+                                                <Avatar.Image src={item.LOGO_URL} />
+                                            </Avatar.Root>
+                                            <Heading size={"md"}>
+                                                {item.NAME}
+                                            </Heading>
+                                            <Badge colorPalette="yellow">
+                                                {item.SYMBOL}
+                                            </Badge>
+                                        </Flex>
+                                    </Table.Cell>
+                                    <Table.Cell>{item.ASSET_TYPE}</Table.Cell>
+                                    <Table.Cell>
+                                        <Stat.Root size={"sm"}>
+                                            <Stat.ValueText>
+                                                <FormatNumber
+                                                    value={item.PRICE_USD || 0}
+                                                    style={"currency"}
+                                                    currency={"USD"}
+                                                    maximumFractionDigits={10}
+                                                />
+                                            </Stat.ValueText>
+                                            <Badge
+                                                colorPalette={isPriceStand ? (isPriceUp ? "green" : "red"): "yellow"}
+                                                variant={"plain"}
+                                                px={0}
+                                                size={"xs"}
+                                            >
+                                                {!isPriceStand && (isPriceUp ? (
+                                                    <Stat.UpIndicator />
+                                                ): (
+                                                    <Stat.DownIndicator />
+                                                ))}
+                                                <FormatNumber
+                                                    value={priceChangeValue}
+                                                    style="percent"
+                                                    maximumFractionDigits={2}
+                                                    // maximumSignificantDigits={5}
+                                                />
+                                            </Badge>
+                                        </Stat.Root>
+                                    </Table.Cell>
+                                </Table.Row>
+                            );}))}
+                    </Table.Body>
+                </Table.Root>
+                
 
                 <Pagination.Root
                     count={totalPages}
@@ -83,8 +140,7 @@ function App() {
                         </Pagination.NextTrigger>
                     </ButtonGroup>
                 </Pagination.Root>
-            </>
-            
+            </Flex>
         </>
     );
 }
