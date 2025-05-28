@@ -8,16 +8,11 @@ import {
 } from "@chakra-ui/react";
 import * as React from "react";
 import {LuChevronLeft, LuChevronRight} from "react-icons/lu";
-import {useDispatch, useSelector} from "react-redux";
-import {usePagination} from "../hooks/usePagination";
-import {useGetAssetListQuery} from "./services/assetService";
-import type {RootState} from "./store";
-import "./App.css";
+import {usePagination} from "../../../hooks/usePagination.ts";
+import {useGetAssetListQuery} from "../../services/assetService";
+import "./ListPage.css";
 
-function App() {
-    const count = useSelector((state: RootState) => state.counter.value);
-    const dispatch = useDispatch();
-
+function ListPage() {
     const {page, pageSize, totalPages, setTotalCount, onSetPage} = usePagination({
         initTotalCount: 0,
         initPage: 1,
@@ -99,7 +94,6 @@ function App() {
                                                     value={priceChangeValue}
                                                     style="percent"
                                                     maximumFractionDigits={2}
-                                                    // maximumSignificantDigits={5}
                                                 />
                                             </Badge>
                                         </Stat.Root>
@@ -145,4 +139,4 @@ function App() {
     );
 }
 
-export default App;
+export default ListPage;
