@@ -27,7 +27,7 @@ export interface AssetSearchQueryPayload {
 export interface AssetHistoryQueryPayload {
     time: HistoryTime;
     market?: string;
-    instrument: string;
+    instrument?: string;
     limit?: number;
     to_ts?: number;
     aggregate?: number;
@@ -79,7 +79,7 @@ export interface IBaseItem {
 }
 
 export interface Asset extends IBaseItem {
-    SYMBOL: string, //TODO FIX ON ENUM
+    SYMBOL: string,
     URI: string,
     CIRCULATING_MKT_CAP_USD: number,
     SUPPLY_CIRCULATING: number,

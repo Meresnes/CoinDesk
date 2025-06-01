@@ -3,11 +3,23 @@ import {Box, Button, Flex, Group, Skeleton, Stack} from "@chakra-ui/react";
 import * as React from "react";
 import {useParams} from "react-router";
 import {CartesianGrid, Line, LineChart, Tooltip, XAxis, YAxis} from "recharts";
+import {useAppSelector, useAppDispatch} from "../../hooks";
 import {useAssetHistoryQuery, useAssetMetaQuery} from "../../services/assetService";
-import {type AssetHistoryQueryPayload, HistoryTime} from "../../types/Asset";
+import {
+    selectAssetHistoryChartData,
+    selectAssetHistoryPayload,
+    selectMaxCoinPrice,
+    selectMinCoinPrice,
+    selectSortPeriodType,
+    setHistoryPayload,
+    setSortPeriodType,
+    setHistoryChartData
+} from "../../store/coinPageSlice";
+import {HistoryTime} from "../../types/Asset";
+import {SortPeriodType} from "../../types/Sort";
 import HeaderCoinStats from "./components/HeaderCoinStats";
 
-type HistoryData = {
+export type HistoryChartData = {
     price: number,
     date: string,
     currentTime: string,
@@ -16,71 +28,36 @@ type HistoryData = {
 
 function CoinPage() {
     const {name} = useParams();
-    const DEFAULT_PAYLOAD = {
-        time: HistoryTime.DAYS,
-        limit: 2000,
-        to_ts: Math.floor(new Date(Date.now()).getTime() / 1000),
-        instrument: name || ""
-    };
-    const [historyData, setHistoryData] = React.useState<HistoryData[]>([]);
-    const [minPrice, setMinPrice] = React.useState<number>(0);
-    const [maxPrice, setMaxPrice] = React.useState<number>(0);
-    const [historyPayload, setHistoryPayload] = React.useState<AssetHistoryQueryPayload>(DEFAULT_PAYLOAD);
+    const dispatch = useAppDispatch();
+
+    const historyChartData = useAppSelector(selectAssetHistoryChartData);
+    const assetHistoryPayload = useAppSelector(selectAssetHistoryPayload);
+    const currentSortPeriodType = useAppSelector(selectSortPeriodType);
+    const minPrice = useAppSelector(selectMinCoinPrice);
+    const maxPrice = useAppSelector(selectMaxCoinPrice);
+
     const assetMeta = useAssetMetaQuery({assets: name || ""});
-    const assetHistory = useAssetHistoryQuery(historyPayload);
-
-    const initHistoryData = () => {
-        setMaxPrice(0);
-        setMinPrice(0);
-
-        const data: HistoryData[] = assetHistory.data?.map((item, index) => {
-            if (index === 0 || item.CLOSE < minPrice) {
-                setMinPrice(item.CLOSE);
-            }
-
-            if (maxPrice < item.CLOSE) {
-                setMaxPrice(item.CLOSE);
-            }
-            const date = new Date(item.TIMESTAMP * 1000);
-
-            const hours = date.getHours() < 10 ? `0${date.getHours()}`:  date.getHours();
-            const minutes = date.getMinutes() < 10 ? `0${date.getMinutes()}` : date.getMinutes();
-            const currentTime = `${hours}: ${minutes}`;
-
-            return {
-                price: item.CLOSE,
-                date: getFullDateFormat(date),
-                currentTime: currentTime
-            };
-        }) || [];
-        setHistoryData(data);
-    };
-
+    const assetHistory = useAssetHistoryQuery(assetHistoryPayload, {
+        skip: !assetHistoryPayload.instrument,
+    });
 
     const chart = useChart({
-        data: historyData || [],
+        data: historyChartData,
         series: [
             {name: "price", label: "price $", color: "teal.solid"},
         ],
     });
 
-
-
-    const onToggleClick = () => {
-        setHistoryPayload({
-            time: HistoryTime.MINUTE,
-            limit: 60,
-            to_ts: Math.floor(new Date(Date.now()).getTime() / 1000),
-            instrument: name || ""
-        });
+    const onToggleClick = (sortPeriod: SortPeriodType) => {
+        dispatch(setSortPeriodType(sortPeriod));
     };
 
     const getXLineTimeFormat = () => {
-        const periodVariant = historyPayload.time;
+        const periodVariant = assetHistoryPayload.time;
 
         switch (periodVariant) {
             case HistoryTime.DAYS:
-                return chart.formatDate({month: "short", year: "numeric"});
+                return chart.formatDate({year: "numeric", month: "short"});
             case HistoryTime.HOURS:
                 return chart.formatDate({hour: "2-digit", minute: "2-digit", hour12: false, dayPeriod: "short", day: "2-digit", month: "short"});
             case HistoryTime.MINUTE:
@@ -90,23 +67,21 @@ function CoinPage() {
         }
     };
 
-    const getFullDateFormat = (date: Date)  => {
-
-        return `${date.toDateString()} ${date.toLocaleTimeString()}`;
-    };
-
 
     React.useEffect(() => {
-        initHistoryData();
+        dispatch(setHistoryChartData(assetHistory.data));
     }, [name, assetHistory.data]);
 
 
     React.useEffect(() => {
-        initHistoryData();
+        dispatch(setHistoryChartData(assetHistory.data));
     }, []);
 
     React.useEffect(() => {
-        setHistoryPayload(DEFAULT_PAYLOAD);
+        dispatch(setHistoryPayload({
+            ...assetHistoryPayload,
+            instrument: name
+        }));
     }, [name]);
 
     const coinData = assetMeta.data?.[name || ""];
@@ -123,44 +98,24 @@ function CoinPage() {
                 <Flex mb={10}>
                     <Stack gap="4">
                         <Group attached>
-                            <Button
-                                key={"1H"}
-                                variant="surface"
-                                onClick={onToggleClick}
-                            >
-                                1H
-                            </Button>
-                            <Button
-                                key={"24H"}
-                                variant="outline"
-                            >
-                                24H
-                            </Button>
-                            <Button
-                                key={"7D"}
-                                variant="outline"
-                            >
-                                7D
-                            </Button>
-                            <Button
-                                key={"1M"}
-                                variant="outline"
-                            >
-                                1M
-                            </Button>
-                            <Button
-                                key={"1M"}
-                                variant="outline"
-                            >
-                                ALL
-                            </Button>
+                            {Object.values(SortPeriodType).map(item => {
+                                return (
+                                    <Button
+                                        key={item}
+                                        variant={currentSortPeriodType === item ? "surface": "outline"}
+                                        onClick={() => onToggleClick(item)}
+                                    >
+                                        {item}
+                                    </Button>
+                                );
+                            })}
                         </Group>
 
                     </Stack>
                 </Flex>
                 {!assetHistory.isFetching && chart.data.length > 0 ? (
                     <Chart.Root maxH="sm" chart={chart} height="lg">
-                        <LineChart data={historyData}>
+                        <LineChart data={historyChartData}>
                             <CartesianGrid stroke={chart.color("border")} vertical={false} />
                             <XAxis
                                 axisLine={false}

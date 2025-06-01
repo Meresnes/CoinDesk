@@ -8,7 +8,7 @@ import {
 } from "@chakra-ui/react";
 import * as React from "react";
 import {LuChevronLeft, LuChevronRight} from "react-icons/lu";
-import {usePagination} from "../../../hooks/usePagination.ts";
+import {usePagination} from "../../hooks/usePagination";
 import {useGetAssetListQuery} from "../../services/assetService";
 import "./ListPage.css";
 

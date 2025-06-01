@@ -9,3 +9,12 @@ export enum SortBy {
     PRICE_USD = "PRICE_USD",
     UPDATED_ON = "UPDATED_ON",
 }
+
+export enum SortPeriodType {
+    HOUR = "1H",
+    DAY = "24H",
+    WEEK = "7D",
+    MOUTH = "1M",
+    YEAR = "1Y",
+    ALL_TIME = "All",
+}

@@ -1,10 +1,10 @@
 import {configureStore} from "@reduxjs/toolkit";
 import {assetService} from "../services/assetService";
-import {counterSlice} from "./countedSlice";
+import {coinPageSlice} from "./coinPageSlice";
 
 export const store = configureStore({
     reducer: {
-        counter: counterSlice.reducer,
+        coinPage: coinPageSlice.reducer,
         assetService: assetService.reducer,
     },
     middleware: (getDefaultMiddleware) =>
