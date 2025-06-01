@@ -1,6 +1,12 @@
 import {Language} from "../types/Language";
 import {SortBy, SortDirection} from "./Sort";
 
+export enum HistoryTime {
+    MINUTE = "MINUTES",
+    HOURS = "HOURS",
+    DAYS = "DAYS",
+}
+
 export interface ListQueryPayload<T extends SortBy> {
     page?: number,
     page_size?: number,
@@ -18,6 +24,15 @@ export interface AssetSearchQueryPayload {
     limit?: number;
 }
 
+export interface AssetHistoryQueryPayload {
+    time: HistoryTime;
+    market?: string;
+    instrument: string;
+    limit?: number;
+    to_ts?: number;
+    aggregate?: number;
+}
+
 export interface AssetMetaQueryPayload {
     assets: string,
     asset_language?: Language,
@@ -32,6 +47,20 @@ export type STAT = {
 
 export interface AssetMetaResponse {
     [key: string]: AssetListItem
+}
+
+export interface AssetHistoryResponse {
+    Data: AssetHistory[]
+}
+export interface AssetHistory {
+    TIMESTAMP: number;
+    CLOSE: number;
+    UNIT: string;
+    MARKET: string;
+    INSTRUMENT: string;
+    VOLUME: number;
+    HIGH_MESSAGE_VALUE: number;
+    LOW_MESSAGE_VALUE: number;
 }
 
 export interface AssetListResponse {

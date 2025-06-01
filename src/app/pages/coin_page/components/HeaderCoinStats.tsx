@@ -1,4 +1,3 @@
-import * as React from "react";
 import {
     Avatar,
     Badge,
@@ -23,7 +22,6 @@ export default function HeaderCoinStats({coinData, isFetching}: IProps) {
     const priceChangeValue = coinData?.SPOT_MOVING_24_HOUR_CHANGE_PERCENTAGE_USD || 0;
     const isPriceUp = priceChangeValue >= 0;
     const isPriceStand = priceChangeValue === 0;
-
     return (
         <Box mt={20}>
             {!isFetching && coinData ? (
@@ -65,7 +63,8 @@ export default function HeaderCoinStats({coinData, isFetching}: IProps) {
                                     ))}
                                     <FormatNumber
                                         value={priceChangeValue}
-                                        style="percent"
+                                        style={"unit"}
+                                        unit={"percent"}
                                         maximumFractionDigits={2}
                                     />
                                 </Badge>

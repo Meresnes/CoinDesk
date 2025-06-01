@@ -1,12 +1,14 @@
 import {createApi, fetchBaseQuery} from "@reduxjs/toolkit/query/react";
 import {BASE_URL} from "../config";
-import type {
-    AssetListQueryPayload,
-    AssetListResponse,
-    AssetMetaQueryPayload,
-    AssetMetaResponse,
-    AssetSearchQueryPayload,
-    AssetSearchResponse
+import {
+    type AssetHistory,
+    type AssetHistoryQueryPayload,
+    type AssetListQueryPayload,
+    type AssetListResponse,
+    type AssetMetaQueryPayload,
+    type AssetMetaResponse,
+    type AssetSearchQueryPayload,
+    type AssetSearchResponse, HistoryTime
 } from "../types/Asset";
 import {Language} from "../types/Language";
 import {SortDirection, SortBy} from "../types/Sort";
@@ -65,8 +67,27 @@ export const assetService = createApi({
                     ...data.Data
                 };
             },
+        }),
+        assetHistory: builder.query<AssetHistory[], AssetHistoryQueryPayload>({
+            query: (paramsKeys: AssetHistoryQueryPayload) => ({
+                url: `/index/cc/v1/historical/${paramsKeys.time.toLowerCase() || HistoryTime.MINUTE.toLowerCase()}`,
+                method: "GET",
+                params: {
+                    market: "cadli",
+                    to_ts: paramsKeys.to_ts || Math.floor(new Date(Date.now()).getTime() / 1000),
+                    response_format: "JSON",
+                    fill: true,
+                    apply_mapping: true,
+                    instrument: `${paramsKeys.instrument}-USD`,
+                    limit: paramsKeys.limit || 60,
+                    aggregate: paramsKeys.aggregate || 1,
+                }
+            }),
+            transformResponse: (data: {Data: AssetHistory[]} ) => {
+                return data.Data;
+            },
         })
     }),
 });
 
-export const {useGetAssetListQuery, useAssetMetaQuery, useAssetSearchQuery} = assetService;
+export const {useGetAssetListQuery, useAssetMetaQuery, useAssetSearchQuery, useAssetHistoryQuery} = assetService;

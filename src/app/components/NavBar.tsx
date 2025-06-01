@@ -104,7 +104,6 @@ export default function NavBar (): React.JSX.Element {
                                                 </Span>
                                                 <Span color="fg.muted" truncate>
                                                     {coin.SYMBOL}
-                                                    {/*{character.height}cm / {character.mass}kg*/}
                                                 </Span>
                                             </HStack>
                                             <Combobox.ItemIndicator />
