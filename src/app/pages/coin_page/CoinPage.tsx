@@ -1,8 +1,15 @@
 import {Chart, useChart} from "@chakra-ui/charts";
-import {Box, Button, Flex, Group, Skeleton, Stack} from "@chakra-ui/react";
+import {Box, Button, Center, Flex, Group, Spinner, Stack} from "@chakra-ui/react";
 import * as React from "react";
 import {useParams} from "react-router";
-import {CartesianGrid, Line, LineChart, Tooltip, XAxis, YAxis} from "recharts";
+import {
+    CartesianGrid,
+    Line,
+    LineChart,
+    Tooltip,
+    XAxis,
+    YAxis
+} from "recharts";
 import {useAppSelector, useAppDispatch} from "../../hooks";
 import {useAssetHistoryQuery, useAssetMetaQuery} from "../../services/assetService";
 import {
@@ -11,6 +18,7 @@ import {
     selectMaxCoinPrice,
     selectMinCoinPrice,
     selectSortPeriodType,
+    selectHistoryPeriodStat,
     setHistoryPayload,
     setSortPeriodType,
     setHistoryChartData
@@ -18,6 +26,7 @@ import {
 import {HistoryTime} from "../../types/Asset";
 import {SortPeriodType} from "../../types/Sort";
 import HeaderCoinStats from "./components/HeaderCoinStats";
+import {PeriodStackLabelValue} from "./components/PeriodStackLabelValue";
 
 export type HistoryChartData = {
     price: number,
@@ -32,6 +41,7 @@ function CoinPage() {
 
     const historyChartData = useAppSelector(selectAssetHistoryChartData);
     const assetHistoryPayload = useAppSelector(selectAssetHistoryPayload);
+    const historyPeriodStat = useAppSelector(selectHistoryPeriodStat);
     const currentSortPeriodType = useAppSelector(selectSortPeriodType);
     const minPrice = useAppSelector(selectMinCoinPrice);
     const maxPrice = useAppSelector(selectMaxCoinPrice);
@@ -95,13 +105,45 @@ function CoinPage() {
                 />
             </Box>
             <Box mt={10}>
-                <Flex mb={10}>
+                <Flex mb={10} justifyContent={"space-between"} alignItems={"center"}>
+                    <Stack>
+
+                    </Stack>
+                    <Stack direction={"row"} gap={5}>
+                        <PeriodStackLabelValue
+                            priceValue={historyPeriodStat.OPEN}
+                            label={"Open"}
+                            currentSortPeriod={currentSortPeriodType}
+                            isLoading={assetHistory.isFetching}
+                        />
+                        <PeriodStackLabelValue
+                            priceValue={historyPeriodStat.HIGH}
+                            label={"High"}
+                            priceTextColor={"green.500"}
+                            currentSortPeriod={currentSortPeriodType}
+                            isLoading={assetHistory.isFetching}
+                        />
+                        <PeriodStackLabelValue
+                            priceValue={historyPeriodStat.LOW}
+                            label={"Low"}
+                            priceTextColor={"red.500"}
+                            currentSortPeriod={currentSortPeriodType}
+                            isLoading={assetHistory.isFetching}
+                        />
+                        <PeriodStackLabelValue
+                            priceValue={historyPeriodStat.VOLUME}
+                            label={"Volume"}
+                            currentSortPeriod={currentSortPeriodType}
+                            isLoading={assetHistory.isFetching}
+                        />
+                    </Stack>
                     <Stack gap="4">
                         <Group attached>
                             {Object.values(SortPeriodType).map(item => {
                                 return (
                                     <Button
                                         key={item}
+                                        size="xs"
                                         variant={currentSortPeriodType === item ? "surface": "outline"}
                                         onClick={() => onToggleClick(item)}
                                     >
@@ -110,12 +152,11 @@ function CoinPage() {
                                 );
                             })}
                         </Group>
-
                     </Stack>
                 </Flex>
-                {!assetHistory.isFetching && chart.data.length > 0 ? (
+                <Box position={"relative"} aria-busy="true" userSelect="none">
                     <Chart.Root maxH="sm" chart={chart} height="lg">
-                        <LineChart data={historyChartData}>
+                        <LineChart data={historyChartData} >
                             <CartesianGrid stroke={chart.color("border")} vertical={false} />
                             <XAxis
                                 axisLine={false}
@@ -132,14 +173,20 @@ function CoinPage() {
                                     style: "currency",
                                     currency: "USD",
                                     currencyDisplay: "narrowSymbol",
+                                    maximumSignificantDigits:6,
+                                    maximumFractionDigits: 2,
                                 })}
                                 tickMargin={10}
                                 stroke={chart.color("border")}
                             />
+
                             <Tooltip animationDuration={100} content={<Chart.Tooltip />} />
                             <Line
-                                type="monotone"
+                                type="linear"
                                 dataKey="price"
+                                legendType={"cross"}
+                                animationEasing={"ease-in-out" }
+                                unit={"number"}
                                 stroke="green"
                                 strokeWidth={2}
                                 dot={false}
@@ -147,11 +194,15 @@ function CoinPage() {
                             />
                         </LineChart>
                     </Chart.Root>
-                ): (
-                    <>
-                        <Skeleton height="lg" />
-                    </>
-                )}
+
+                    {assetHistory.isFetching && (
+                        <Box pos="absolute" inset="0" bg="bg/70">
+                            <Center h="full" w={"ful"}>
+                                <Spinner color="teal.500" />
+                            </Center>
+                        </Box>
+                    )}
+                </Box>
             </Box>
         </div>
     );

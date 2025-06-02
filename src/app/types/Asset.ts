@@ -52,15 +52,21 @@ export interface AssetMetaResponse {
 export interface AssetHistoryResponse {
     Data: AssetHistory[]
 }
-export interface AssetHistory {
+export interface AssetHistory extends HistoryPeriodStats {
     TIMESTAMP: number;
     CLOSE: number;
     UNIT: string;
     MARKET: string;
     INSTRUMENT: string;
-    VOLUME: number;
     HIGH_MESSAGE_VALUE: number;
     LOW_MESSAGE_VALUE: number;
+}
+
+export interface HistoryPeriodStats {
+    OPEN?: number;
+    HIGH?: number;
+    LOW?: number;
+    VOLUME?: number;
 }
 
 export interface AssetListResponse {

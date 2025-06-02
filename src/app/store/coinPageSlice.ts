@@ -1,7 +1,7 @@
 import {createSlice} from "@reduxjs/toolkit";
 import type {PayloadAction} from "@reduxjs/toolkit";
 import type {HistoryChartData} from "../pages/coin_page/CoinPage";
-import {type AssetHistory, type AssetHistoryQueryPayload, HistoryTime} from "../types/Asset";
+import {type AssetHistory, type AssetHistoryQueryPayload, type HistoryPeriodStats, HistoryTime} from "../types/Asset";
 import {SortPeriodType} from "../types/Sort";
 import {getCurrentTimestamp, getFullDateFormat} from "../utils/DateTimeUtils";
 import type {RootState} from "./index";
@@ -12,7 +12,8 @@ export interface CoinPageState {
     assetHistoryChartData: HistoryChartData[],
     minCoinPrice: number,
     maxCoinPrice: number,
-    sortPeriodType: SortPeriodType
+    sortPeriodType: SortPeriodType,
+    historyPeriodStat: HistoryPeriodStats
 }
 
 const DEFAULT_PAYLOAD = {
@@ -22,13 +23,20 @@ const DEFAULT_PAYLOAD = {
     instrument: undefined
 };
 
+const DEFAULT_PERIOD_STAT = {
+    OPEN: undefined,
+    HIGH: undefined,
+    LOW: undefined,
+    VOLUME: undefined,
+};
+
 const initialState: CoinPageState = {
     assetHistoryPayload: DEFAULT_PAYLOAD,
     sortPeriodType: SortPeriodType.YEAR,
     assetHistoryChartData: [],
-    minCoinPrice: 0,
-    maxCoinPrice: 0,
-
+    minCoinPrice: Infinity,
+    maxCoinPrice: Infinity,
+    historyPeriodStat: DEFAULT_PERIOD_STAT
 };
 
 export const coinPageSlice = createSlice({
@@ -100,8 +108,11 @@ export const coinPageSlice = createSlice({
 
             let minPrice = Infinity;
             let maxPrice = -Infinity;
-
+            const periodOpen = rawData[0].OPEN || undefined;
+            let periodVolume = 0;
             const data: HistoryChartData[] = rawData.map(item => {
+
+                periodVolume += item.VOLUME || 0;
 
                 if (item.CLOSE < minPrice) {
                     minPrice = item.CLOSE;
@@ -127,6 +138,12 @@ export const coinPageSlice = createSlice({
 
             state.minCoinPrice = minPrice === Infinity ? 0 : minPrice;
             state.maxCoinPrice = maxPrice === -Infinity ? 0 : maxPrice;
+            state.historyPeriodStat = {
+                OPEN: periodOpen,
+                VOLUME: periodVolume,
+                HIGH: maxPrice,
+                LOW: minPrice
+            };
 
         }
     },
@@ -136,6 +153,7 @@ export const {setHistoryChartData, setSortPeriodType, setHistoryPayload} = coinP
 
 export const selectAssetHistoryChartData = (state: RootState) => state.coinPage.assetHistoryChartData;
 export const selectAssetHistoryPayload = (state: RootState) => state.coinPage.assetHistoryPayload;
+export const selectHistoryPeriodStat = (state: RootState) => state.coinPage.historyPeriodStat;
 export const selectMinCoinPrice = (state: RootState) => state.coinPage.minCoinPrice;
 export const selectMaxCoinPrice = (state: RootState) => state.coinPage.maxCoinPrice;
 export const selectSortPeriodType = (state: RootState) => state.coinPage.sortPeriodType;

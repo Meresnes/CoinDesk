@@ -93,18 +93,39 @@ export default function HeaderCoinStats({coinData, isFetching}: IProps) {
                                 </Text>
                                 <Flex gap={1} textStyle={"s"}>
                                     <Text fontWeight="bold">
-                                        <FormatNumber value={coinData.SUPPLY_CIRCULATING} notation="compact" compactDisplay="short" minimumFractionDigits={2} minimumIntegerDigits={2} />
+                                        <FormatNumber
+                                            value={coinData.SUPPLY_CIRCULATING}
+                                            notation="compact"
+                                            compactDisplay="short"
+                                            minimumFractionDigits={2}
+                                            minimumIntegerDigits={2}
+                                            maximumFractionDigits={2}
+                                        />
                                     </Text>
                                     {"/"}
                                     <Text fontWeight="bold">
-                                        <FormatNumber value={coinData.SUPPLY_TOTAL} notation="compact" compactDisplay="short" minimumFractionDigits={2} minimumIntegerDigits={2} />
+                                        <FormatNumber
+                                            value={coinData.SUPPLY_TOTAL}
+                                            notation="compact"
+                                            compactDisplay="short"
+                                            minimumFractionDigits={2}
+                                            minimumIntegerDigits={2}
+                                            maximumFractionDigits={2}
+                                        />
                                     </Text>
                                     {"/"}
                                     <Text fontWeight="bold">
                                         {coinData.SUPPLY_MAX === -1.00 ? (
                                             "∞"
                                         ): (
-                                            <FormatNumber value={coinData.SUPPLY_MAX} notation="compact" compactDisplay="short" minimumFractionDigits={2} minimumIntegerDigits={2} />
+                                            <FormatNumber
+                                                value={coinData.SUPPLY_MAX}
+                                                notation="compact"
+                                                compactDisplay="short"
+                                                minimumFractionDigits={2}
+                                                minimumIntegerDigits={2}
+                                                maximumFractionDigits={2}
+                                            />
                                         )}
                                     </Text>
                                 </Flex>
@@ -132,19 +153,16 @@ export default function HeaderCoinStats({coinData, isFetching}: IProps) {
                         <Flex direction={"row"} gap={10}>
                             <Stack maxW="xs">
                                 <HStack width="100px">
-                                    {/*<SkeletonCircle size="10" />*/}
                                     <SkeletonText noOfLines={3} />
                                 </HStack>
                             </Stack>
                             <Stack maxW="xs">
                                 <HStack width="100px">
-                                    {/*<SkeletonCircle size="10" />*/}
                                     <SkeletonText noOfLines={3} />
                                 </HStack>
                             </Stack>
                             <Stack maxW="xs">
                                 <HStack width="100px">
-                                    {/*<SkeletonCircle size="10" />*/}
                                     <SkeletonText noOfLines={3} />
                                 </HStack>
                             </Stack>
