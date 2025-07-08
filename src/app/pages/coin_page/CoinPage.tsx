@@ -1,15 +1,9 @@
-import {Chart, useChart} from "@chakra-ui/charts";
-import {Box, Button, Center, Flex, Group, Spinner, Stack} from "@chakra-ui/react";
+import {useChart} from "@chakra-ui/charts";
+import {Box, Button, Center, Flex, Group, IconButton, Spinner, Stack} from "@chakra-ui/react";
 import * as React from "react";
+import {FaChartLine} from "react-icons/fa6";
+import {MdCandlestickChart} from "react-icons/md";
 import {useParams} from "react-router";
-import {
-    CartesianGrid,
-    Line,
-    LineChart,
-    Tooltip,
-    XAxis,
-    YAxis
-} from "recharts";
 import {useAppSelector, useAppDispatch} from "../../hooks";
 import {useAssetHistoryQuery, useAssetMetaQuery} from "../../services/assetService";
 import {
@@ -21,18 +15,15 @@ import {
     selectHistoryPeriodStat,
     setHistoryPayload,
     setSortPeriodType,
-    setHistoryChartData
+    setHistoryChartData, type HistoryChartData, selectSelectedChartType, CHART_TYPE, setChartType,
 } from "../../store/coinPageSlice";
 import {HistoryTime} from "../../types/Asset";
 import {SortPeriodType} from "../../types/Sort";
+import {NEGATIVE_PRICE_COLOR, POSITIVE_PRICE_COLOR} from "../../utils/ChartsColort";
+import {BarChartComponent} from "./components/BarChartComponent.tsx";
 import HeaderCoinStats from "./components/HeaderCoinStats";
+import {LineChartComponent} from "./components/LineChartComponent.tsx";
 import {PeriodStackLabelValue} from "./components/PeriodStackLabelValue";
-
-export type HistoryChartData = {
-    price: number,
-    date: string,
-    currentTime: string,
-};
 
 
 function CoinPage() {
@@ -40,6 +31,7 @@ function CoinPage() {
     const dispatch = useAppDispatch();
 
     const historyChartData = useAppSelector(selectAssetHistoryChartData);
+    const selectedCharType = useAppSelector(selectSelectedChartType);
     const assetHistoryPayload = useAppSelector(selectAssetHistoryPayload);
     const historyPeriodStat = useAppSelector(selectHistoryPeriodStat);
     const currentSortPeriodType = useAppSelector(selectSortPeriodType);
@@ -50,17 +42,6 @@ function CoinPage() {
     const assetHistory = useAssetHistoryQuery(assetHistoryPayload, {
         skip: !assetHistoryPayload.instrument,
     });
-
-    const chart = useChart({
-        data: historyChartData,
-        series: [
-            {name: "price", label: "price $", color: "teal.solid"},
-        ],
-    });
-
-    const onToggleClick = (sortPeriod: SortPeriodType) => {
-        dispatch(setSortPeriodType(sortPeriod));
-    };
 
     const getXLineTimeFormat = () => {
         const periodVariant = assetHistoryPayload.time;
@@ -75,6 +56,23 @@ function CoinPage() {
             default:
                 return chart.formatDate({year: "numeric", month: "short"});
         }
+    };
+
+    const chart = useChart<HistoryChartData>({
+        data: historyChartData,
+        series: [
+            {name: "openClose", color: "teal.solid"},
+            {name: "open", label: "price $", color: "teal.solid",  stackId: "barId"},
+            {name: "date", label: "date", color: "teal.solid"},
+            {name: "close", color: "teal.solid", stackId: "barId"},
+            {name: "high", color: POSITIVE_PRICE_COLOR,  stackId: "barId"},
+            {name: "low", color: NEGATIVE_PRICE_COLOR,  stackId: "barId"},
+            {name: "highLow", color: "teal.solid", stackId: "barId"},
+        ],
+    });
+
+    const onToggleClick = (sortPeriod: SortPeriodType) => {
+        dispatch(setSortPeriodType(sortPeriod));
     };
 
 
@@ -106,8 +104,23 @@ function CoinPage() {
             </Box>
             <Box mt={10}>
                 <Flex mb={10} justifyContent={"space-between"} alignItems={"center"}>
-                    <Stack>
-
+                    <Stack gap={"4"}>
+                        <Group attached>
+                            <IconButton
+                                size={"xs"}
+                                onClick={() => dispatch(setChartType(CHART_TYPE.LINE))}
+                                variant={selectedCharType === CHART_TYPE.LINE ? "surface" : "outline"}
+                            >
+                                <FaChartLine/>
+                            </IconButton>
+                            <IconButton
+                                size={"xs"}
+                                onClick={() => dispatch(setChartType(CHART_TYPE.BAR))}
+                                variant={selectedCharType === CHART_TYPE.BAR ? "surface" : "outline"}
+                            >
+                                <MdCandlestickChart/>
+                            </IconButton>
+                        </Group>
                     </Stack>
                     <Stack direction={"row"} gap={5}>
                         <PeriodStackLabelValue
@@ -119,14 +132,14 @@ function CoinPage() {
                         <PeriodStackLabelValue
                             priceValue={historyPeriodStat.HIGH}
                             label={"High"}
-                            priceTextColor={"green.500"}
+                            priceTextColor={POSITIVE_PRICE_COLOR}
                             currentSortPeriod={currentSortPeriodType}
                             isLoading={assetHistory.isFetching}
                         />
                         <PeriodStackLabelValue
                             priceValue={historyPeriodStat.LOW}
                             label={"Low"}
-                            priceTextColor={"red.500"}
+                            priceTextColor={NEGATIVE_PRICE_COLOR}
                             currentSortPeriod={currentSortPeriodType}
                             isLoading={assetHistory.isFetching}
                         />
@@ -137,13 +150,13 @@ function CoinPage() {
                             isLoading={assetHistory.isFetching}
                         />
                     </Stack>
-                    <Stack gap="4">
+                    <Stack gap={"4"}>
                         <Group attached>
                             {Object.values(SortPeriodType).map(item => {
                                 return (
                                     <Button
                                         key={item}
-                                        size="xs"
+                                        size={"xs"}
                                         variant={currentSortPeriodType === item ? "surface": "outline"}
                                         onClick={() => onToggleClick(item)}
                                     >
@@ -154,51 +167,29 @@ function CoinPage() {
                         </Group>
                     </Stack>
                 </Flex>
-                <Box position={"relative"} aria-busy="true" userSelect="none">
-                    <Chart.Root maxH="sm" chart={chart} height="lg">
-                        <LineChart data={historyChartData} >
-                            <CartesianGrid stroke={chart.color("border")} vertical={false} />
-                            <XAxis
-                                axisLine={false}
-                                dataKey="date"
-                                hide={false}
-                                tickFormatter={getXLineTimeFormat()}
-                                stroke={chart.color("border")}
-                            />
-                            <YAxis
-                                axisLine
-                                tickLine={false}
-                                domain={[minPrice, maxPrice]}
-                                tickFormatter={chart.formatNumber({
-                                    style: "currency",
-                                    currency: "USD",
-                                    currencyDisplay: "narrowSymbol",
-                                    maximumSignificantDigits:6,
-                                    maximumFractionDigits: 2,
-                                })}
-                                tickMargin={10}
-                                stroke={chart.color("border")}
-                            />
-
-                            <Tooltip animationDuration={100} content={<Chart.Tooltip />} />
-                            <Line
-                                type="linear"
-                                dataKey="price"
-                                legendType={"cross"}
-                                animationEasing={"ease-in-out" }
-                                unit={"number"}
-                                stroke="green"
-                                strokeWidth={2}
-                                dot={false}
-                                connectNulls={true}
-                            />
-                        </LineChart>
-                    </Chart.Root>
+                <Box position={"relative"} aria-busy={"true"} userSelect={"none"}>
+                    {selectedCharType === CHART_TYPE.LINE && (
+                        <LineChartComponent
+                            chartData={historyChartData}
+                            chartMeta={chart}
+                            maxPrice={maxPrice}
+                            minPrice={minPrice}
+                            getTimeFormat={getXLineTimeFormat()}
+                        />
+                    )}
+                    {selectedCharType === CHART_TYPE.BAR && (
+                        <BarChartComponent
+                            chartData={historyChartData}
+                            chartMeta={chart}
+                            maxPrice={maxPrice}
+                            minPrice={minPrice}
+                        />
+                    )}
 
                     {assetHistory.isFetching && (
-                        <Box pos="absolute" inset="0" bg="bg/70">
-                            <Center h="full" w={"ful"}>
-                                <Spinner color="teal.500" />
+                        <Box pos={"absolute"} inset={"0"} bg={"bg/70"}>
+                            <Center h={"full"} w={"ful"}>
+                                <Spinner color={"teal.500"}/>
                             </Center>
                         </Box>
                     )}

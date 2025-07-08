@@ -1,0 +1,2 @@
+export const POSITIVE_PRICE_COLOR ="#11A05E";
+export const NEGATIVE_PRICE_COLOR ="#F05C5C";

@@ -11,7 +11,7 @@ export interface ListQueryPayload<T extends SortBy> {
     page?: number,
     page_size?: number,
     sort_direction?: SortDirection,
-    sort_by?: T,
+    sort_by?: T
 }
 
 //TODO: FIX generic on asset list values
@@ -20,17 +20,17 @@ export interface AssetListQueryPayload extends ListQueryPayload<SortBy> {
 }
 
 export interface AssetSearchQueryPayload {
-    search_string?: string;
-    limit?: number;
+    search_string?: string,
+    limit?: number
 }
 
 export interface AssetHistoryQueryPayload {
-    time: HistoryTime;
-    market?: string;
-    instrument?: string;
-    limit?: number;
-    to_ts?: number;
-    aggregate?: number;
+    time: HistoryTime,
+    market?: string,
+    instrument?: string,
+    limit?: number,
+    to_ts?: number,
+    aggregate?: number
 }
 
 export interface AssetMetaQueryPayload {
@@ -40,9 +40,9 @@ export interface AssetMetaQueryPayload {
 }
 
 export type STAT = {
-    PAGE: number;
-    PAGE_SIZE: number;
-    TOTAL_ASSETS: number;
+    PAGE: number,
+    PAGE_SIZE: number,
+    TOTAL_ASSETS: number
 };
 
 export interface AssetMetaResponse {
@@ -53,20 +53,21 @@ export interface AssetHistoryResponse {
     Data: AssetHistory[]
 }
 export interface AssetHistory extends HistoryPeriodStats {
-    TIMESTAMP: number;
-    CLOSE: number;
-    UNIT: string;
-    MARKET: string;
-    INSTRUMENT: string;
-    HIGH_MESSAGE_VALUE: number;
-    LOW_MESSAGE_VALUE: number;
+    TIMESTAMP: number,
+    CLOSE: number,
+    QUOTE_VOLUME: number,
+    UNIT: string,
+    MARKET: string,
+    INSTRUMENT: string,
+    HIGH_MESSAGE_VALUE: number,
+    LOW_MESSAGE_VALUE: number
 }
 
 export interface HistoryPeriodStats {
-    OPEN?: number;
-    HIGH?: number;
-    LOW?: number;
-    VOLUME?: number;
+    OPEN: number,
+    HIGH: number,
+    LOW: number,
+    VOLUME: number
 }
 
 export interface AssetListResponse {
@@ -81,7 +82,7 @@ export interface AssetSearchResponse {
 export interface IBaseItem {
     ID: number,
     TYPE: number,
-    CREATED_ON: number,
+    CREATED_ON: number
 }
 
 export interface Asset extends IBaseItem {
@@ -93,8 +94,8 @@ export interface Asset extends IBaseItem {
     SUPPLY_TOTAL: number,
     SUPPLY_MAX: number,
     SPOT_MOVING_24_HOUR_QUOTE_VOLUME_USD: number,
-    ASSET_TYPE: string
-    TOPLIST_BASE_RANK: TopListBaseRank
+    ASSET_TYPE: string,
+    TOPLIST_BASE_RANK: TopListBaseRank,
     NAME: string,
     LOGO_URL: string
 }
@@ -114,6 +115,6 @@ type TopListBaseRank = {
     TOTAL_MKT_CAP_USD: number,
     SPOT_MOVING_24_HOUR_QUOTE_VOLUME_USD:number,
     SPOT_MOVING_7_DAY_QUOTE_VOLUME_USD: number,
-    SPOT_MOVING_30_DAY_QUOTE_VOLUME_USD: number,
+    SPOT_MOVING_30_DAY_QUOTE_VOLUME_USD: number
 };
 

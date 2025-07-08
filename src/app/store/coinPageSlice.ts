@@ -1,19 +1,35 @@
 import {createSlice} from "@reduxjs/toolkit";
 import type {PayloadAction} from "@reduxjs/toolkit";
-import type {HistoryChartData} from "../pages/coin_page/CoinPage";
 import {type AssetHistory, type AssetHistoryQueryPayload, type HistoryPeriodStats, HistoryTime} from "../types/Asset";
 import {SortPeriodType} from "../types/Sort";
 import {getCurrentTimestamp, getFullDateFormat} from "../utils/DateTimeUtils";
 import type {RootState} from "./index";
 
+export type HistoryChartData = {
+    price: number,
+    date: string,
+    currentTime: string,
+    openClose: [number, number],
+    open: number,
+    close: number,
+    high: number,
+    low: number,
+    highLow: [number, number]
+};
 
 export interface CoinPageState {
     assetHistoryPayload: AssetHistoryQueryPayload,
     assetHistoryChartData: HistoryChartData[],
     minCoinPrice: number,
+    selectedChartType: CHART_TYPE,
     maxCoinPrice: number,
     sortPeriodType: SortPeriodType,
     historyPeriodStat: HistoryPeriodStats
+}
+
+export enum CHART_TYPE {
+    LINE = "line",
+    BAR = "bar"
 }
 
 const DEFAULT_PAYLOAD = {
@@ -24,15 +40,16 @@ const DEFAULT_PAYLOAD = {
 };
 
 const DEFAULT_PERIOD_STAT = {
-    OPEN: undefined,
-    HIGH: undefined,
-    LOW: undefined,
-    VOLUME: undefined,
+    OPEN: 0,
+    HIGH: -Infinity,
+    LOW: Infinity,
+    VOLUME: 0,
 };
 
 const initialState: CoinPageState = {
     assetHistoryPayload: DEFAULT_PAYLOAD,
     sortPeriodType: SortPeriodType.YEAR,
+    selectedChartType: CHART_TYPE.LINE,
     assetHistoryChartData: [],
     minCoinPrice: Infinity,
     maxCoinPrice: Infinity,
@@ -49,6 +66,9 @@ export const coinPageSlice = createSlice({
                 to_ts: getCurrentTimestamp(),
             };
         },
+        setChartType: (state, action: PayloadAction<CHART_TYPE>) => {
+            state.selectedChartType = action.payload;
+        },
         setSortPeriodType: (state, action: PayloadAction<SortPeriodType>) => {
             const payload = state.assetHistoryPayload;
 
@@ -60,7 +80,7 @@ export const coinPageSlice = createSlice({
                     break;
                 case SortPeriodType.DAY:
                     payload.limit = 12 * 24 + 1;
-                    payload.aggregate = 1;
+                    payload.aggregate = 5;
                     payload.time = HistoryTime.MINUTE;
                     break;
                 case SortPeriodType.WEEK:
@@ -106,13 +126,13 @@ export const coinPageSlice = createSlice({
                 return;
             }
 
+            const periodOpen = rawData[0].OPEN || 0;
             let minPrice = Infinity;
             let maxPrice = -Infinity;
-            const periodOpen = rawData[0].OPEN || undefined;
             let periodVolume = 0;
             const data: HistoryChartData[] = rawData.map(item => {
 
-                periodVolume += item.VOLUME || 0;
+                periodVolume += item.QUOTE_VOLUME || 0;
 
                 if (item.CLOSE < minPrice) {
                     minPrice = item.CLOSE;
@@ -129,6 +149,12 @@ export const coinPageSlice = createSlice({
 
                 return {
                     price: item.CLOSE,
+                    openClose: [item.OPEN, item.CLOSE],
+                    highLow: [item.HIGH, item.LOW],
+                    high: item.HIGH,
+                    low: item.LOW,
+                    open: item.OPEN,
+                    close: item.CLOSE,
                     date: getFullDateFormat(date),
                     currentTime: currentTime
                 };
@@ -138,6 +164,7 @@ export const coinPageSlice = createSlice({
 
             state.minCoinPrice = minPrice === Infinity ? 0 : minPrice;
             state.maxCoinPrice = maxPrice === -Infinity ? 0 : maxPrice;
+
             state.historyPeriodStat = {
                 OPEN: periodOpen,
                 VOLUME: periodVolume,
@@ -149,12 +176,13 @@ export const coinPageSlice = createSlice({
     },
 });
 
-export const {setHistoryChartData, setSortPeriodType, setHistoryPayload} = coinPageSlice.actions;
+export const {setHistoryChartData, setChartType, setSortPeriodType, setHistoryPayload} = coinPageSlice.actions;
 
 export const selectAssetHistoryChartData = (state: RootState) => state.coinPage.assetHistoryChartData;
 export const selectAssetHistoryPayload = (state: RootState) => state.coinPage.assetHistoryPayload;
 export const selectHistoryPeriodStat = (state: RootState) => state.coinPage.historyPeriodStat;
 export const selectMinCoinPrice = (state: RootState) => state.coinPage.minCoinPrice;
+export const selectSelectedChartType = (state: RootState) => state.coinPage.selectedChartType;
 export const selectMaxCoinPrice = (state: RootState) => state.coinPage.maxCoinPrice;
 export const selectSortPeriodType = (state: RootState) => state.coinPage.sortPeriodType;
 
