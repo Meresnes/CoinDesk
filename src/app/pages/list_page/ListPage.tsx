@@ -30,8 +30,8 @@ function ListPage() {
 
     return (
         <>
-            <Flex direction="column" alignItems="center" gap={5} paddingX={20} >
-                <Table.Root size="lg" >
+            <Flex direction={"column"} alignItems={"center"} gap={5} paddingX={20} >
+                <Table.Root size={"lg"} >
                     <Table.Header>
                         <Table.Row>
                             <Table.ColumnHeader>ID</Table.ColumnHeader>
@@ -42,7 +42,7 @@ function ListPage() {
                     </Table.Header>
                     <Table.Body>
                         {isFetching ? (
-                            <SkeletonText noOfLines={10} variant={"shine"} gap="4" width={"full"} />
+                            <SkeletonText noOfLines={10} variant={"shine"} gap={"4"} width={"full"} />
                         ): (data?.LIST.map((item) => {
                             const priceChangeValue = item.SPOT_MOVING_24_HOUR_CHANGE_PERCENTAGE_USD || 0;
                             const isPriceUp = priceChangeValue >= 0;
@@ -55,7 +55,7 @@ function ListPage() {
                                         />
                                     </Table.Cell>
                                     <Table.Cell>
-                                        <Flex alignItems="center" gap={5}>
+                                        <Flex alignItems={"center"} gap={5}>
                                             <Avatar.Root size={"xs"}>
                                                 <Avatar.Fallback name={item.NAME} />
                                                 <Avatar.Image src={item.LOGO_URL} />
@@ -63,7 +63,7 @@ function ListPage() {
                                             <Heading size={"md"}>
                                                 {item.NAME}
                                             </Heading>
-                                            <Badge colorPalette="yellow">
+                                            <Badge colorPalette={"yellow"}>
                                                 {item.SYMBOL}
                                             </Badge>
                                         </Flex>
@@ -92,7 +92,7 @@ function ListPage() {
                                                 ))}
                                                 <FormatNumber
                                                     value={priceChangeValue}
-                                                    style="percent"
+                                                    style={"percent"}
                                                     maximumFractionDigits={2}
                                                 />
                                             </Badge>
@@ -110,7 +110,7 @@ function ListPage() {
                     defaultPage={page}
                     onPageChange={(pageDetails) => onSetPage(pageDetails.page)}
                 >
-                    <ButtonGroup variant="outline" size="sm">
+                    <ButtonGroup variant={"outline"} size={"sm"}>
                         <Pagination.PrevTrigger asChild>
                             <IconButton>
                                 <LuChevronLeft />

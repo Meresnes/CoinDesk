@@ -15,7 +15,7 @@ import type {AssetListItem} from "../../../types/Asset";
 
 type IProps = {
     coinData?: AssetListItem,
-    isFetching: boolean,
+    isFetching: boolean
 };
 
 export default function HeaderCoinStats({coinData, isFetching}: IProps) {
@@ -26,21 +26,21 @@ export default function HeaderCoinStats({coinData, isFetching}: IProps) {
         <Box mt={20}>
             {!isFetching && coinData ? (
                 <Flex gap={40} width={"full"} justifyContent={"space-between"} >
-                    <HStack key={coinData.NAME} gap="4" justifyContent={"flex-start"} height={"full"}>
+                    <HStack key={coinData.NAME} gap={"4"} justifyContent={"flex-start"} height={"full"}>
                         <Avatar.Root>
                             <Avatar.Fallback name={coinData.NAME} />
                             <Avatar.Image src={coinData.LOGO_URL} />
                         </Avatar.Root>
-                        <Stack gap="0">
-                            <Text color="fg.muted" textStyle="sm">
+                        <Stack gap={"0"}>
+                            <Text color={"fg.muted"} textStyle={"sm"}>
                                 {coinData.SYMBOL}
                             </Text>
-                            <Text fontWeight="bold" textStyle="lg">
+                            <Text fontWeight={"bold"} textStyle={"lg"}>
                                 {coinData.NAME}
                             </Text>
                         </Stack>
                     </HStack>
-                    <Flex direction="column" justifyContent="center" alignItems="center" gap={5}>
+                    <Flex direction={"column"} justifyContent={"center"} alignItems={"center"} gap={5}>
                         <Stat.Root size={"lg"}>
                             <Stat.ValueText gap={3} fontStyle={"italic"} >
                                 <FormatNumber
@@ -71,57 +71,57 @@ export default function HeaderCoinStats({coinData, isFetching}: IProps) {
                             </Stat.ValueText>
                         </Stat.Root>
                         <Flex gap={10}>
-                            <Stack gap="2">
-                                <Text color="fg.muted" textStyle="sm">
+                            <Stack gap={"2"}>
+                                <Text color={"fg.muted"} textStyle={"sm"}>
                                     {"Market Cap" + " #" +  coinData.TOPLIST_BASE_RANK.TOTAL_MKT_CAP_USD}
                                 </Text>
-                                <Text fontWeight="bold" textStyle={"s"}>
-                                    <FormatNumber value={coinData.CIRCULATING_MKT_CAP_USD} style="currency" currency="USD" />
+                                <Text fontWeight={"bold"} textStyle={"s"}>
+                                    <FormatNumber value={coinData.CIRCULATING_MKT_CAP_USD} style={"currency"} currency={"USD"} />
                                 </Text>
                             </Stack>
-                            <Stack gap="2">
-                                <Text color="fg.muted" textStyle={"sm"}>
+                            <Stack gap={"2"}>
+                                <Text color={"fg.muted"} textStyle={"sm"}>
                                     {"Volume (24h)" + " #" +  coinData.TOPLIST_BASE_RANK.SPOT_MOVING_24_HOUR_QUOTE_VOLUME_USD}
                                 </Text>
-                                <Text fontWeight="bold" textStyle={"s"}>
-                                    <FormatNumber value={coinData.SPOT_MOVING_24_HOUR_QUOTE_VOLUME_USD} style="currency" currency="USD" />
+                                <Text fontWeight={"bold"} textStyle={"s"}>
+                                    <FormatNumber value={coinData.SPOT_MOVING_24_HOUR_QUOTE_VOLUME_USD} style={"currency"} currency={"USD"} />
                                 </Text>
                             </Stack>
-                            <Stack gap="2" >
-                                <Text color="fg.muted" textStyle="sm">
+                            <Stack gap={"2"} >
+                                <Text color={"fg.muted"} textStyle={"sm"}>
                                     {"Supply (Circ. / Total / Max)"}
                                 </Text>
                                 <Flex gap={1} textStyle={"s"}>
-                                    <Text fontWeight="bold">
+                                    <Text fontWeight={"bold"}>
                                         <FormatNumber
                                             value={coinData.SUPPLY_CIRCULATING}
-                                            notation="compact"
-                                            compactDisplay="short"
+                                            notation={"compact"}
+                                            compactDisplay={"short"}
                                             minimumFractionDigits={2}
                                             minimumIntegerDigits={2}
                                             maximumFractionDigits={2}
                                         />
                                     </Text>
                                     {"/"}
-                                    <Text fontWeight="bold">
+                                    <Text fontWeight={"bold"}>
                                         <FormatNumber
                                             value={coinData.SUPPLY_TOTAL}
-                                            notation="compact"
-                                            compactDisplay="short"
+                                            notation={"compact"}
+                                            compactDisplay={"short"}
                                             minimumFractionDigits={2}
                                             minimumIntegerDigits={2}
                                             maximumFractionDigits={2}
                                         />
                                     </Text>
                                     {"/"}
-                                    <Text fontWeight="bold">
+                                    <Text fontWeight={"bold"}>
                                         {coinData.SUPPLY_MAX === -1.00 ? (
                                             "∞"
                                         ): (
                                             <FormatNumber
                                                 value={coinData.SUPPLY_MAX}
-                                                notation="compact"
-                                                compactDisplay="short"
+                                                notation={"compact"}
+                                                compactDisplay={"short"}
                                                 minimumFractionDigits={2}
                                                 minimumIntegerDigits={2}
                                                 maximumFractionDigits={2}
@@ -137,32 +137,32 @@ export default function HeaderCoinStats({coinData, isFetching}: IProps) {
             ) : (
                 <Flex width={"full"} justifyContent={"space-between"} >
                     <div>
-                        <Stack gap="6" maxW="xs">
-                            <HStack width="200px">
-                                <SkeletonCircle size="10" />
+                        <Stack gap={"6"} maxW={"xs"}>
+                            <HStack width={"200px"}>
+                                <SkeletonCircle size={"10"} />
                                 <SkeletonText noOfLines={2} />
                             </HStack>
                         </Stack>
                     </div>
                     <Flex direction={"column"} width={"auto"} gap={10}>
-                        <Stack maxW="xs">
-                            <HStack width="auto">
+                        <Stack maxW={"xs"}>
+                            <HStack width={"auto"}>
                                 <SkeletonText noOfLines={3} />
                             </HStack>
                         </Stack>
                         <Flex direction={"row"} gap={10}>
-                            <Stack maxW="xs">
-                                <HStack width="100px">
+                            <Stack maxW={"xs"}>
+                                <HStack width={"100px"}>
                                     <SkeletonText noOfLines={3} />
                                 </HStack>
                             </Stack>
-                            <Stack maxW="xs">
-                                <HStack width="100px">
+                            <Stack maxW={"xs"}>
+                                <HStack width={"100px"}>
                                     <SkeletonText noOfLines={3} />
                                 </HStack>
                             </Stack>
-                            <Stack maxW="xs">
-                                <HStack width="100px">
+                            <Stack maxW={"xs"}>
+                                <HStack width={"100px"}>
                                     <SkeletonText noOfLines={3} />
                                 </HStack>
                             </Stack>

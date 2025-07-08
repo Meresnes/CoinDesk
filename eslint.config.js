@@ -1,6 +1,7 @@
 import js from '@eslint/js'
 import globals from 'globals'
 import reactHooks from 'eslint-plugin-react-hooks'
+import react from 'eslint-plugin-react';
 import reactRefresh from 'eslint-plugin-react-refresh'
 import stylisticTs from '@stylistic/eslint-plugin-ts'
 import importPlugin from 'eslint-plugin-import'
@@ -16,6 +17,7 @@ export default tseslint.config(
       globals: globals.browser,
     },
     plugins: {
+        react,
         'react-hooks': reactHooks,
         'react-refresh': reactRefresh,
         '@stylistic/ts': stylisticTs,
@@ -35,10 +37,23 @@ export default tseslint.config(
               'warn',
               { allowConstantExport: true },
           ],
+          'semi': 'off',
           '@stylistic/ts/indent': ['error', 4],
           '@stylistic/ts/quotes': ['error', 'double', { avoidEscape: true }],
           '@stylistic/ts/semi': ['error', 'always'],
+          '@stylistic/ts/semi-spacing': ["error", {before: false, after: true}],
           '@stylistic/ts/comma-spacing': ['error', { before: false, after: true }],
+          '@stylistic/ts/member-delimiter-style': ['error', {
+              multiline: {
+                  delimiter: 'comma',
+                  requireLast: false
+              },
+              singleline: {
+                  delimiter: 'comma',
+                  requireLast: false
+              },
+              multilineDetection: "brackets"
+          }],
           'object-curly-spacing': ['error', 'never'],
           'import/order': ['error', {
               groups: ['builtin', 'external', 'internal', 'parent', 'sibling', 'index'],
@@ -47,6 +62,10 @@ export default tseslint.config(
           'import/no-unresolved': 'warn',
           'import/newline-after-import': 'error',
           'import/no-duplicates': 'error',
+          'react/jsx-curly-brace-presence': ['error', {
+              props: 'always',
+              children: 'ignore'
+          }],
       },
   },
 )

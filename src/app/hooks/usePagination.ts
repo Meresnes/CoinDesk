@@ -1,9 +1,9 @@
 import * as React from "react";
 
 interface UsePaginationParams {
-    initTotalCount: number;
-    initPage?: number;
-    initPageSize?: number;
+    initTotalCount: number,
+    initPage?: number,
+    initPageSize?: number
 }
 
 export function usePagination({
