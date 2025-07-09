@@ -1,15 +1,15 @@
 import {Chart, type UseChartReturn} from "@chakra-ui/charts";
 import * as React from "react";
 import {CartesianGrid, Cell, Line, LineChart, Tooltip, XAxis, YAxis} from "recharts";
-import type {HistoryChartData} from "../../../store/coinPageSlice.ts";
-import {NEGATIVE_PRICE_COLOR, POSITIVE_PRICE_COLOR} from "../../../utils/ChartsColort.ts";
+import type {HistoryChartData} from "../../../store/coinPageSlice";
+import {NEGATIVE_PRICE_COLOR, POSITIVE_PRICE_COLOR} from "../../../utils/ChartsColort";
 
 type IProps = {
     chartData: HistoryChartData[],
     chartMeta: UseChartReturn<HistoryChartData>,
     minPrice: number,
     maxPrice: number,
-    getTimeFormat: (value: any, index:number) => string
+    getTimeFormat: (value: unknown, index: number) => string
 };
 
 export function LineChartComponent ({chartData, chartMeta, minPrice, maxPrice, getTimeFormat}: IProps): React.JSX.Element  {
