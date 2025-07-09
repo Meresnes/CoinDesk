@@ -9,7 +9,7 @@ type IProps = {
     chartMeta: UseChartReturn<HistoryChartData>,
     minPrice: number,
     maxPrice: number,
-    getTimeFormat: (value: any, index:number) => string
+    getTimeFormat: (value: unknown, index: number) => string
 };
 
 export function LineChartComponent ({chartData, chartMeta, minPrice, maxPrice, getTimeFormat}: IProps): React.JSX.Element  {
