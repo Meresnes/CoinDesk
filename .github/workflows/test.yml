@@ -1,4 +1,4 @@
-name: GitHub Actions Demo
+name: GitHub Build
 run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
 on: [push]
 jobs:
@@ -16,3 +16,14 @@ jobs:
         run: |
           ls ${{ github.workspace }}
       - run: echo "🍏 This job's status is ${{ job.status }}."
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Use Node.js
+      - uses: actions/setup-node@v4
+      - with:
+      - node-version: '22.x'
+      - run: yarn
+      - run: yarn run build
+      - run: yarn run lint
