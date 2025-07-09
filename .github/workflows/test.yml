@@ -27,6 +27,6 @@ jobs:
       - name: Install dependencies
         run: yarn
       - name: Build project run
-        run: yarn run build
+        run: yarn build
       - name: EsLint Build run
-        run: yarn run lint
+        run: yarn lint

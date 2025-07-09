@@ -20,9 +20,9 @@ import {
 import {HistoryTime} from "../../types/Asset";
 import {SortPeriodType} from "../../types/Sort";
 import {NEGATIVE_PRICE_COLOR, POSITIVE_PRICE_COLOR} from "../../utils/ChartsColort";
-import {BarChartComponent} from "./components/BarChartComponent.tsx";
+import {BarChartComponent} from "./components/BarChartComponent";
 import HeaderCoinStats from "./components/HeaderCoinStats";
-import {LineChartComponent} from "./components/LineChartComponent.tsx";
+import {LineChartComponent} from "./components/LineChartComponent";
 import {PeriodStackLabelValue} from "./components/PeriodStackLabelValue";
 
 

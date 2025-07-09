@@ -1,8 +1,8 @@
 import {Chart, type UseChartReturn} from "@chakra-ui/charts";
 import * as React from "react";
 import {CartesianGrid, Cell, Line, LineChart, Tooltip, XAxis, YAxis} from "recharts";
-import type {HistoryChartData} from "../../../store/coinPageSlice.ts";
-import {NEGATIVE_PRICE_COLOR, POSITIVE_PRICE_COLOR} from "../../../utils/ChartsColort.ts";
+import type {HistoryChartData} from "../../../store/coinPageSlice";
+import {NEGATIVE_PRICE_COLOR, POSITIVE_PRICE_COLOR} from "../../../utils/ChartsColort";
 
 type IProps = {
     chartData: HistoryChartData[],
