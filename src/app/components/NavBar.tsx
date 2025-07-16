@@ -50,6 +50,10 @@ export default function NavBar (): React.JSX.Element {
         }
     }, [data?.LIST, set]);
 
+    if (isCoinPath) {
+        return <></>;
+    }
+
     return (
         <Box
             pt={5}
@@ -76,7 +80,6 @@ export default function NavBar (): React.JSX.Element {
                     
                         <Combobox.Label>Select coin</Combobox.Label>
                         <Combobox.Control>
-                        
                             <Combobox.Input placeholder={"Type to search"} />
                             <Combobox.IndicatorGroup>
                                 <Combobox.ClearTrigger />

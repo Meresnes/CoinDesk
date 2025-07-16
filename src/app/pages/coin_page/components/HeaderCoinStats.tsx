@@ -11,6 +11,8 @@ import {
     Stat,
     Text
 } from "@chakra-ui/react";
+import {LuArrowLeft} from "react-icons/lu";
+import {useNavigate} from "react-router";
 import type {AssetListItem} from "../../../types/Asset";
 
 type IProps = {
@@ -19,14 +21,21 @@ type IProps = {
 };
 
 export default function HeaderCoinStats({coinData, isFetching}: IProps) {
+    const navigate = useNavigate();
     const priceChangeValue = coinData?.SPOT_MOVING_24_HOUR_CHANGE_PERCENTAGE_USD || 0;
     const isPriceUp = priceChangeValue >= 0;
     const isPriceStand = priceChangeValue === 0;
+
+    const onArrowClick = () => {
+        navigate("/list");
+    };
+    
     return (
-        <Box mt={20}>
+        <Box mt={5}>
             {!isFetching && coinData ? (
                 <Flex gap={40} width={"full"} justifyContent={"space-between"} >
                     <HStack key={coinData.NAME} gap={"4"} justifyContent={"flex-start"} height={"full"}>
+                        <LuArrowLeft cursor={"pointer"} size={40} onClick={onArrowClick}/>
                         <Avatar.Root>
                             <Avatar.Fallback name={coinData.NAME} />
                             <Avatar.Image src={coinData.LOGO_URL} />

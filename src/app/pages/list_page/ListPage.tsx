@@ -1,23 +1,37 @@
 import {
     Avatar,
-    ButtonGroup, Flex,
-    IconButton, Pagination,
-    SkeletonText, Table,
-    Heading, Badge,
-    Stat, FormatNumber
+    Badge,
+    ButtonGroup,
+    Flex,
+    FormatNumber,
+    Heading,
+    IconButton,
+    Pagination,
+    SkeletonText,
+    Stat,
+    Table
 } from "@chakra-ui/react";
 import * as React from "react";
 import {LuChevronLeft, LuChevronRight} from "react-icons/lu";
+import {useNavigate} from "react-router";
+import TopListWidget from "../../components/TopListWidget";
 import {usePagination} from "../../hooks/usePagination";
 import {useGetAssetListQuery} from "../../services/assetService";
+import {SortBy, SortDirection} from "../../types/Sort";
+import {NEGATIVE_PRICE_COLOR, POSITIVE_PRICE_COLOR} from "../../utils/ChartsColort";
 import "./ListPage.css";
 
 function ListPage() {
+    const navigate = useNavigate();
     const {page, pageSize, totalPages, setTotalCount, onSetPage} = usePagination({
         initTotalCount: 0,
         initPage: 1,
         initPageSize: 10,
     });
+
+    const onCoinClick = (name: string) => {
+        navigate(`/coin/${name}`);
+    };
 
     const {data, isFetching} = useGetAssetListQuery({page: page, page_size: pageSize});
 
@@ -31,6 +45,29 @@ function ListPage() {
     return (
         <>
             <Flex direction={"column"} alignItems={"center"} gap={5} paddingX={20} >
+                <Flex
+                    justifyContent={"space-between"}
+                    width={"full"}
+                    alignItems={"center"}
+                    px={20}
+                    py={5}
+                >
+                    <TopListWidget
+                        title={"Gainers"}
+                        listPayload={{
+                            sort_by: SortBy.SPOT_MOVING_24_HOUR_CHANGE_PERCENTAGE_USD
+                        }}
+                        priceBadgeColor={POSITIVE_PRICE_COLOR}
+                    />
+                    <TopListWidget
+                        title={"Losers"}
+                        listPayload={{
+                            sort_by: SortBy.SPOT_MOVING_24_HOUR_CHANGE_PERCENTAGE_USD,
+                            sort_direction: SortDirection.ASC
+                        }}
+                        priceBadgeColor={NEGATIVE_PRICE_COLOR}
+                    />
+                </Flex>
                 <Table.Root size={"lg"} >
                     <Table.Header>
                         <Table.Row>
@@ -55,7 +92,12 @@ function ListPage() {
                                         />
                                     </Table.Cell>
                                     <Table.Cell>
-                                        <Flex alignItems={"center"} gap={5}>
+                                        <Flex
+                                            alignItems={"center"}
+                                            gap={5}
+                                            cursor={"pointer"}
+                                            onClick={() => onCoinClick(item.SYMBOL)}
+                                        >
                                             <Avatar.Root size={"xs"}>
                                                 <Avatar.Fallback name={item.NAME} />
                                                 <Avatar.Image src={item.LOGO_URL} />
