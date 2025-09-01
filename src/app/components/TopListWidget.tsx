@@ -51,15 +51,16 @@ function TopListWidget (props: IProps): React.ReactNode {
                                     alignItems={"center"}
                                     cursor={"pointer"}
                                     textStyle={"xs"}
-                                    transition={"0.5s linear"}
+                                    transition={"0.3s linear"}
                                     borderRadius={"5px"}
                                     border={"1px solid transparent"}
                                     onClick={() => onCoinClick(item.SYMBOL)}
                                     _hover={{
                                         transform: "scale(1.05)",
                                         marginLeft: "25px",
-                                        border: "gray 1px solid",
-                                        animation: "300ms ease-out",
+                                        marginRight: "10px",
+                                        border: "#e8e8ea 1px solid",
+                                        background: "#e8e8ea"
                                     }}
                                 >
                                     <Flex gap={2} pl={2} alignItems={"center"} overflow={"hidden"}>

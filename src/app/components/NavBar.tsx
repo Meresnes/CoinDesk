@@ -1,16 +1,14 @@
 import {
     Box,
     Flex,
-    Grid,
     Combobox,
     Portal,
-    Tabs,
     useListCollection, HStack,
     Spinner, Span, Avatar,
 } from "@chakra-ui/react";
 import {debounce} from "lodash";
 import * as React from "react";
-import {LuList, LuNewspaper, LuSquareCheck, LuArrowLeft} from "react-icons/lu";
+import {LuList, LuNewspaper, LuSettings} from "react-icons/lu";
 import {Link, useNavigate, useLocation} from "react-router";
 import {useAssetSearchQuery} from "../services/assetService";
 import type {Asset} from "../types/Asset";
@@ -24,10 +22,6 @@ export default function NavBar (): React.JSX.Element {
         navigate(`/coin/${name}`);
     };
 
-    const onArrowClick = () => {
-        navigate("/list");
-    };
-
     const setSearch = debounce(
         (text: string) => {
             setSearchText(text);
@@ -36,12 +30,10 @@ export default function NavBar (): React.JSX.Element {
     );
     const {data, isFetching} = useAssetSearchQuery({search_string: searchText});
 
-    const isCoinPath = location.pathname.includes("/coin/");
-
     const {collection, set} = useListCollection<Asset>({
         initialItems: [],
         itemToString: (item) => item.NAME,
-        itemToValue: (item) => item.NAME,
+        itemToValue: (item) => item.ID.toString(),
     });
 
     React.useEffect(() => {
@@ -50,26 +42,50 @@ export default function NavBar (): React.JSX.Element {
         }
     }, [data?.LIST, set]);
 
-    if (isCoinPath) {
-        return <></>;
-    }
+    const getLinkStyle = (path: string): React.CSSProperties => {
+        const isActive = location.pathname === path;
+        return {
+            color: "black",
+            textDecoration: isActive ? "underline" : "none",
+            fontWeight: isActive ? "bold" : "normal",
+        };
+    };
 
     return (
         <Box
-            pt={5}
             mb={3}
             px={20}
         >
-            <Grid
-                templateColumns={"repeat(3, 1fr)"}
+            <Flex
                 height={50}
                 gap={10}
-                alignContent={"center"}
                 alignItems={"center"}
+                justifyContent={"flex-end"}
             >
-                
+                <Flex as={"nav"} gap={20} alignItems={"center"}>
+                    <>
+                        <Link to={"/list"} style={getLinkStyle("/list")}>
+                            <HStack>
+                                <LuList />
+                                <Span>Prices</Span>
+                            </HStack>
+                        </Link>
+                        <Link to={"/news"} style={getLinkStyle("/news")}>
+                            <HStack>
+                                <LuNewspaper />
+                                <Span>News</Span>
+                            </HStack>
+                        </Link>
+                        <Link to={"/settings"} style={getLinkStyle("/settings")}>
+                            <HStack>
+                                <LuSettings />
+                                <Span>Settings</Span>
+                            </HStack>
+                        </Link>
+                    </>
+                </Flex>
+
                 <Flex alignItems={"center"} gap={10}>
-                    {isCoinPath && <LuArrowLeft cursor={"pointer"} size={40} onClick={onArrowClick}/>}
                     <Combobox.Root
                         collection={collection}
                         onInputValueChange={(e) => setSearch(e.inputValue)}
@@ -77,8 +93,6 @@ export default function NavBar (): React.JSX.Element {
                         width={"320px"}
                         openOnClick={true}
                     >
-                    
-                        <Combobox.Label>Select coin</Combobox.Label>
                         <Combobox.Control>
                             <Combobox.Input placeholder={"Type to search"} />
                             <Combobox.IndicatorGroup>
@@ -120,34 +134,7 @@ export default function NavBar (): React.JSX.Element {
                         </Portal>
                     </Combobox.Root>
                 </Flex>
-
-                <Tabs.Root defaultValue={"members"} variant={"line"}>
-                    {!isCoinPath && (
-                        <Flex gap={20}>
-                            <Link to={"/list"}>
-
-                                <Tabs.Trigger value={"members"}>
-                                    <LuList />
-                                    Top list
-                                </Tabs.Trigger>
-                            </Link>
-                            <Link to={"/news"}>
-
-                                <Tabs.Trigger value={"projects"}>
-                                    <LuNewspaper />
-                                    News
-                                </Tabs.Trigger>
-                            </Link>
-                            <Tabs.Trigger value={"tasks"}>
-                                <LuSquareCheck />
-                                Settings
-                            </Tabs.Trigger>
-                        </Flex>
-
-                    )}
-                </Tabs.Root>
-                <div></div>
-            </Grid>
+            </Flex>
         </Box>
     );
 }
