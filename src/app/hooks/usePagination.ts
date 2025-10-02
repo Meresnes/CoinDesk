@@ -34,7 +34,7 @@ export function usePagination({
         if (page > totalPages) {
             onSetPage(totalPages);
         }
-    }, [totalPages]);
+    }, [totalPages, page]);
 
     return {page, totalPages, setTotalCount, pageSize, setPageSize, goNext, goPrevious, onSetPage};
 }
