@@ -12,19 +12,16 @@ import type {Asset, AssetListItem} from "../../../types/Asset";
 
 interface AssetTableRowProps {
     item: AssetListItem | Asset,
+    itemMeta?: AssetListItem,
     onCoinClick: (symbol: string) => void
 }
 
-export const AssetTableRow = React.memo(({item, onCoinClick}: AssetTableRowProps) => {
-    let priceUsd = 0;
-    let priceChangeValue = 0;
-
-    if ("PRICE_USD" in item && "SPOT_MOVING_24_HOUR_CHANGE_PERCENTAGE_USD" in item) {
-        priceUsd = item.PRICE_USD || 0;  
-        priceChangeValue = item.SPOT_MOVING_24_HOUR_CHANGE_PERCENTAGE_USD || 0;
-    }
+export const AssetTableRow = React.memo(({item, itemMeta, onCoinClick}: AssetTableRowProps) => {
+    const priceSource = "PRICE_USD" in item ? item as AssetListItem : itemMeta;
+    const priceUsd = priceSource?.PRICE_USD ?? 0;
+    const priceChangeValue = priceSource?.SPOT_MOVING_24_HOUR_CHANGE_PERCENTAGE_USD ?? 0;
     
-    const isPriceUp = priceChangeValue >= 0;
+    const isPriceUp = priceChangeValue > 0;
     const isPriceStand = priceChangeValue === 0;
 
     return (

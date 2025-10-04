@@ -38,7 +38,7 @@ function CoinPage() {
     const minPrice = useAppSelector(selectMinCoinPrice);
     const maxPrice = useAppSelector(selectMaxCoinPrice);
 
-    const assetMeta = useAssetMetaQuery({assets: name || ""});
+    const assetMeta = useAssetMetaQuery({assets: [name || ""]});
     const assetHistory = useAssetHistoryQuery(assetHistoryPayload, {
         skip: !assetHistoryPayload.instrument,
     });

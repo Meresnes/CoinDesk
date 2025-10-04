@@ -1,22 +1,14 @@
 import * as React from "react";
 import {useDebounce} from "../../../hooks";
-import {useGetAssetListQuery, useAssetSearchQuery} from "../../../services/assetService";
+import {useAssetSearchQuery, useLazyAssetMetaQuery} from "../../../services/assetService";
 
-interface UseAssetSearchProps {
-    page: number,
-    pageSize: number
-}
 
-export function useAssetSearch({page, pageSize}: UseAssetSearchProps) {
+export function useAssetSearch() {
     const [searchStringQuery, setSearchStringQuery] = React.useState("");
-    const debouncedSearchQuery = useDebounce(searchStringQuery, 300);
+    const debouncedSearchQuery = useDebounce<string>(searchStringQuery, 300);
 
-    const queryParams = {
-        page,
-        page_size: pageSize   
-    };
-
-    const {data: assetListData, isFetching: isAssetListFetching} = useGetAssetListQuery(queryParams);
+    const [fetchAssetMeta, {data: assetMetaData, isFetching: isAssetMetaFetching}] = useLazyAssetMetaQuery();
+    
     const {data: assetSearchData, isFetching: isAssetSearchDataFetching} = useAssetSearchQuery({
         search_string: debouncedSearchQuery,
         limit: 10
@@ -24,22 +16,26 @@ export function useAssetSearch({page, pageSize}: UseAssetSearchProps) {
         skip: !debouncedSearchQuery.trim()
     });
 
-    const isSearchMode = Boolean(debouncedSearchQuery.trim());
-    const currentData = isSearchMode ? assetSearchData?.LIST : assetListData?.LIST;
-    const isLoading = isSearchMode ? isAssetSearchDataFetching : isAssetListFetching;
-    
-    const isPaginationDisabled = Boolean(searchStringQuery) || isAssetSearchDataFetching || isAssetListFetching;
+    React.useEffect(() => {
+        if (assetSearchData?.LIST && assetSearchData.LIST.length > 0) {
+            fetchAssetMeta({
+                assets: assetSearchData.LIST.map(item => item.SYMBOL) || []
+            });
+        }
+    }, [assetSearchData, fetchAssetMeta]);
 
+    const isSearchMode = Boolean(debouncedSearchQuery.trim());
+    const searchData = assetSearchData?.LIST;
+    const isLoading = isAssetSearchDataFetching || isAssetMetaFetching;
+    
     return {
         searchStringQuery,
         setSearchStringQuery,
         debouncedSearchQuery,
-        currentData,
+        searchData,
         isLoading,
         isSearchMode,
-        isPaginationDisabled,
-        assetListData,
-        totalAssets: assetListData?.STATS.TOTAL_ASSETS
+        assetMetaData,
     };
 }
 

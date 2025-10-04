@@ -3,7 +3,7 @@ import * as React from "react";
 import {useNavigate} from "react-router";
 import {usePagination} from "../../hooks";
 import {AssetPagination, AssetTable, SearchBar, TopListWidgets} from "./components";
-import {useAssetSearch} from "./hooks";
+import {useAssetSearch, useAssetList} from "./hooks";
 import "./ListPage.css";
 
 function ListPage() {
@@ -17,12 +17,21 @@ function ListPage() {
     const {
         searchStringQuery,
         setSearchStringQuery,
-        currentData,
+        searchData,
+        assetMetaData,
         isLoading,
         isSearchMode,
-        isPaginationDisabled,
-        totalAssets
-    } = useAssetSearch({page, pageSize});
+    } = useAssetSearch();
+
+    const {
+        assetListData,
+        totalAssets,
+        isAssetListFetching
+    } = useAssetList({page, pageSize});
+
+    const isTableLoading = isAssetListFetching || isLoading;
+    
+    const isPaginationDisabled = isTableLoading || isSearchMode;
 
     const onCoinClick = React.useCallback((symbol: string) => {
         navigate(`/coin/${symbol}`);
@@ -45,8 +54,9 @@ function ListPage() {
             />
             
             <AssetTable 
-                data={currentData}
-                isLoading={isLoading}
+                data={isSearchMode ? searchData : assetListData}
+                isLoading={isTableLoading}
+                assetMetaData={assetMetaData}
                 onCoinClick={onCoinClick}
             />
             

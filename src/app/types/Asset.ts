@@ -34,7 +34,7 @@ export interface AssetHistoryQueryPayload {
 }
 
 export interface AssetMetaQueryPayload {
-    assets: string,
+    assets: string[],
     asset_language?: Language,
     quote_asset?: string
 }

@@ -1,15 +1,21 @@
 import {SkeletonText, Table} from "@chakra-ui/react";
 import * as React from "react";
-import type {Asset, AssetListItem} from "../../../types/Asset";
+import type {Asset, AssetListItem, AssetMetaResponse} from "../../../types/Asset";
 import {AssetTableRow} from "./AssetTableRow";
 
 interface AssetTableProps {
     data?: (AssetListItem | Asset)[],
     isLoading: boolean,
+    assetMetaData?: AssetMetaResponse,
     onCoinClick: (symbol: string) => void
 }
 
-export const AssetTable = React.memo(({data, isLoading, onCoinClick}: AssetTableProps) => {
+export const AssetTable = React.memo(({data, isLoading, assetMetaData, onCoinClick}: AssetTableProps) => {
+
+    const getMetaDataById = (symbol: string): AssetListItem | undefined => {
+        return assetMetaData?.[symbol] || undefined;
+    };
+
     return (
         <Table.Root size={"lg"}>
             <Table.Header>
@@ -21,13 +27,11 @@ export const AssetTable = React.memo(({data, isLoading, onCoinClick}: AssetTable
                 </Table.Row>
             </Table.Header>
 
-            {isLoading && (
+            {isLoading ? (
                 <Table.Body>
                     <SkeletonText noOfLines={10} variant={"shine"} gap={"4"} width={"full"} />
                 </Table.Body>
-            )}
-
-            {!data || data.length === 0 ? (
+            ) : (!data || data.length === 0 ? (
                 <Table.Body>
                     <Table.Row>
                         <Table.Cell colSpan={4} textAlign={"center"} py={8}>
@@ -41,11 +45,12 @@ export const AssetTable = React.memo(({data, isLoading, onCoinClick}: AssetTable
                         <AssetTableRow 
                             key={item.ID} 
                             item={item} 
+                            itemMeta={getMetaDataById(item.SYMBOL)}
                             onCoinClick={onCoinClick} 
                         />
                     ))}
                 </Table.Body>
-            )}
+            ))}
         </Table.Root>
     );
 });
