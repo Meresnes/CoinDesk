@@ -22,8 +22,9 @@ export default function HeaderCoinStats({coinData, isFetching}: IProps) {
     const priceChangeValue = coinData?.SPOT_MOVING_24_HOUR_CHANGE_PERCENTAGE_USD || 0;
     const isPriceUp = priceChangeValue >= 0;
     const isPriceStand = priceChangeValue === 0;
+    
     return (
-        <Box mt={20}>
+        <Box mt={5}>
             {!isFetching && coinData ? (
                 <Flex gap={40} width={"full"} justifyContent={"space-between"} >
                     <HStack key={coinData.NAME} gap={"4"} justifyContent={"flex-start"} height={"full"}>

@@ -90,4 +90,4 @@ export const assetService = createApi({
     }),
 });
 
-export const {useGetAssetListQuery, useAssetMetaQuery, useAssetSearchQuery, useAssetHistoryQuery} = assetService;
+export const {useGetAssetListQuery, useAssetMetaQuery, useLazyAssetMetaQuery, useAssetSearchQuery, useAssetHistoryQuery} = assetService;

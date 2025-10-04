@@ -38,7 +38,7 @@ function CoinPage() {
     const minPrice = useAppSelector(selectMinCoinPrice);
     const maxPrice = useAppSelector(selectMaxCoinPrice);
 
-    const assetMeta = useAssetMetaQuery({assets: name || ""});
+    const assetMeta = useAssetMetaQuery({assets: [name || ""]});
     const assetHistory = useAssetHistoryQuery(assetHistoryPayload, {
         skip: !assetHistoryPayload.instrument,
     });
@@ -78,19 +78,19 @@ function CoinPage() {
 
     React.useEffect(() => {
         dispatch(setHistoryChartData(assetHistory.data));
-    }, [name, assetHistory.data]);
+    }, [name, assetHistory.data, dispatch]);
 
 
     React.useEffect(() => {
         dispatch(setHistoryChartData(assetHistory.data));
-    }, []);
+    }, [dispatch, assetHistory.data]);
 
     React.useEffect(() => {
         dispatch(setHistoryPayload({
             ...assetHistoryPayload,
             instrument: name
         }));
-    }, [name]);
+    }, [name, dispatch]);
 
     const coinData = assetMeta.data?.[name || ""];
 
