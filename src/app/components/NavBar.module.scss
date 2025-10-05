@@ -1,0 +1,82 @@
+@use '../styles/variables.scss' as *;
+
+.navbar {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    background: $bg-surface;
+    backdrop-filter: $blur-heavy;
+    border-bottom: 1px solid $border-primary;
+    margin-bottom: 1.5rem;
+}
+
+.navbarContainer {
+    max-width: 80rem;
+    margin: 0 auto;
+    padding: 0 1rem;
+}
+
+.navbarContent {
+    height: 70px;
+    gap: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.logo {
+    text-decoration: none;
+}
+
+.logoText {
+    background: $gradient-primary;
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.navLinks {
+    display: flex;
+    gap: 2rem;
+    align-items: center;
+}
+
+.navLink {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 0.75rem;
+    border-radius: 0.5rem;
+    transition: $transition-normal;
+
+    &:hover {
+        background: $accent-hover-strong;
+    }
+}
+
+.searchBox {
+    width: 300px;
+}
+
+.searchInput {
+    background: $bg-surface !important;
+    border: 1px solid $border-primary !important;
+    border-radius: 0.75rem !important;
+    color: $text-primary !important;
+
+    &::placeholder {
+        color: $text-muted !important;
+    }
+}
+
+.searchDropdown {
+    background: $bg-surface !important;
+    border: 1px solid $border-primary !important;
+    border-radius: 0.75rem !important;
+    backdrop-filter: $blur-heavy !important;
+}
+
+.searchSpinner {
+    color: $accent-primary !important;
+}
+

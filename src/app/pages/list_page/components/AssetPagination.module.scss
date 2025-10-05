@@ -1,0 +1,54 @@
+@use '../../../styles/variables.scss' as *;
+
+.paginationContainer {
+    background: $bg-surface-light;
+    border-radius: 0.75rem;
+    border: 1px solid $border-primary;
+    backdrop-filter: $blur-light;
+    padding: 1rem;
+}
+
+.paginationContent {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+}
+
+.paginationInfo {
+    color: $text-muted;
+    font-size: 0.875rem;
+}
+
+.paginationButton {
+    background: $bg-elevated;
+    border: 1px solid $border-primary;
+    color: $text-primary;
+
+    &:hover:not(:disabled) {
+        background: $accent-hover;
+        border-color: $border-accent;
+    }
+
+    &:disabled {
+        opacity: $opacity-disabled;
+        cursor: not-allowed;
+    }
+}
+
+.paginationPageButton {
+    background: $bg-elevated;
+    border: 1px solid $border-primary;
+    color: $text-primary;
+
+    &:hover:not(:disabled) {
+        background: $accent-hover;
+        border-color: $border-accent;
+    }
+
+    &.active {
+        background: $accent-active;
+        border-color: $border-accent-strong;
+    }
+}
+

@@ -1,0 +1,66 @@
+@use '../../../styles/variables.scss' as *;
+
+.searchContainer {
+    position: relative;
+    width: 100%;
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+.searchFlex {
+    position: relative;
+    display: flex;
+    align-items: center;
+    background: $bg-surface;
+    border-radius: 0.75rem;
+    border: 1px solid $border-primary;
+    backdrop-filter: $blur-light;
+    overflow: hidden;
+    transition: $transition-normal;
+
+    &:focus-within {
+        border-color: $accent-focus;
+        box-shadow: $shadow-focus;
+    }
+}
+
+.searchIcon {
+    position: absolute;
+    left: 1rem;
+    z-index: 1;
+    color: $text-muted;
+}
+
+.searchInput {
+    padding-left: 3rem;
+    padding-right: 1rem;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    border: none;
+    background: transparent;
+    color: $text-primary;
+    font-size: 1rem;
+    width: 100%;
+
+    &::placeholder {
+        color: $text-muted;
+    }
+
+    &:focus {
+        box-shadow: none;
+        outline: none;
+    }
+}
+
+.clearButton {
+    position: absolute;
+    right: 0.5rem;
+    z-index: 1;
+    color: $text-muted;
+
+    &:hover {
+        color: $text-primary;
+        background: rgba(255, 255, 255, 0.1);
+    }
+}
+

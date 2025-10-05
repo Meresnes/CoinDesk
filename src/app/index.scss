@@ -1,0 +1,52 @@
+@use './styles/variables.scss' as *;
+
+:root {
+    font-family:
+            "Inter",
+            -apple-system,
+            BlinkMacSystemFont,
+            "Segoe UI",
+            "Roboto",
+            sans-serif;
+    line-height: 1.6;
+    font-weight: 400;
+    color-scheme: dark;
+    margin: 0;
+    padding: 0;
+    font-synthesis: none;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    background: $gradient-background;
+    min-height: 100vh;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    background: transparent;
+}
+
+a {
+    font-weight: 500;
+    color: $accent-primary;
+    text-decoration: none;
+    transition: $transition-fast;
+}
+
+a:hover {
+    color: $accent-secondary;
+}
+
+h1 {
+    font-size: 3.2em;
+    line-height: 1.1;
+    background: $gradient-primary;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}

@@ -6,7 +6,7 @@ import NavBar from "./components/NavBar";
 import CoinPage from "./pages/coin_page/CoinPage";
 import ListPage from "./pages/list_page/ListPage";
 import {store} from "./store";
-import "./index.css";
+import "./index.scss";
 
 createRoot(document.getElementById("root")!).render(
     <Provider store={store}>

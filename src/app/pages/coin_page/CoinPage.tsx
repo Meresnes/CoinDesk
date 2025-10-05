@@ -43,6 +43,7 @@ function CoinPage() {
         skip: !assetHistoryPayload.instrument,
     });
 
+
     const getXLineTimeFormat = () => {
         const periodVariant = assetHistoryPayload.time;
 
@@ -61,13 +62,13 @@ function CoinPage() {
     const chart = useChart<HistoryChartData>({
         data: historyChartData,
         series: [
-            {name: "openClose", color: "teal.solid"},
-            {name: "open", label: "price $", color: "teal.solid",  stackId: "barId"},
-            {name: "date", label: "date", color: "teal.solid"},
-            {name: "close", color: "teal.solid", stackId: "barId"},
+            {name: "openClose", color: "yellow.solid"},
+            {name: "open", label: "price $", color: "yellow.solid",  stackId: "barId"},
+            {name: "date", label: "date", color: "yellow.solid"},
+            {name: "close", color: "yellow.solid", stackId: "barId"},
             {name: "high", color: POSITIVE_PRICE_COLOR,  stackId: "barId"},
             {name: "low", color: NEGATIVE_PRICE_COLOR,  stackId: "barId"},
-            {name: "highLow", color: "teal.solid", stackId: "barId"},
+            {name: "highLow", color: "yellow.solid", stackId: "barId"},
         ],
     });
 
@@ -189,7 +190,7 @@ function CoinPage() {
                     {assetHistory.isFetching && (
                         <Box pos={"absolute"} inset={"0"} bg={"bg/70"}>
                             <Center h={"full"} w={"ful"}>
-                                <Spinner color={"teal.500"}/>
+                                <Spinner color={"#F0B90B"}/>
                             </Center>
                         </Box>
                     )}

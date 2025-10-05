@@ -1,10 +1,11 @@
-import {Flex} from "@chakra-ui/react";
+import {Flex, Box, Container, Heading, Text} from "@chakra-ui/react";
 import * as React from "react";
 import {useNavigate} from "react-router";
 import {usePagination} from "../../hooks";
-import {AssetPagination, AssetTable, SearchBar, TopListWidgets} from "./components";
+import {AssetPagination, AssetGrid, SearchBar, TopListWidgets} from "./components";
 import {useAssetSearch, useAssetList} from "./hooks";
 import "./ListPage.css";
+import styles from "./ListPage.module.scss";
 
 function ListPage() {
     const navigate = useNavigate();
@@ -43,33 +44,49 @@ function ListPage() {
         }
     }, [totalAssets, setTotalCount]);
 
-
     return (
-        <Flex direction={"column"} alignItems={"center"} gap={5} paddingX={20}>
-            <TopListWidgets />
-            
-            <SearchBar 
-                searchValue={searchStringQuery}
-                onSearchChange={setSearchStringQuery}
-            />
-            
-            <AssetTable 
-                data={isSearchMode ? searchData : assetListData}
-                isLoading={isTableLoading}
-                assetMetaData={assetMetaData}
-                onCoinClick={onCoinClick}
-            />
-            
-            {!isSearchMode && totalAssets && (
-                <AssetPagination
-                    currentPage={page}
-                    totalCount={totalAssets || 0}
-                    pageSize={pageSize}
-                    onPageChange={onSetPage}
-                    disabled={isPaginationDisabled}
-                />
-            )}
-        </Flex>
+        <Box className={styles.pageContainer}>
+            <Container className={styles.contentContainer} maxW={"7xl"}>
+                <Box className={styles.heroSection}>
+                    <Heading size={"2xl"} mb={4} className={styles.heroTitle}>
+                        CoinDesk
+                    </Heading>
+                    <Text className={styles.heroSubtitle} fontSize={"xl"}>
+                        Discover, track, and analyze cryptocurrency markets with real-time data and insights
+                    </Text>
+                </Box>
+
+                <TopListWidgets />
+                
+                <Box className={styles.searchSection}>
+                    <SearchBar 
+                        searchValue={searchStringQuery}
+                        onSearchChange={setSearchStringQuery}
+                    />
+                </Box>
+                
+                <Box className={styles.gridSection}>
+                    <AssetGrid 
+                        data={isSearchMode ? searchData : assetListData}
+                        isLoading={isTableLoading}
+                        assetMetaData={assetMetaData}
+                        onCoinClick={onCoinClick}
+                    />
+                </Box>
+                
+                {!isSearchMode && totalAssets && (
+                    <Flex className={styles.paginationSection}>
+                        <AssetPagination
+                            currentPage={page}
+                            totalCount={totalAssets || 0}
+                            pageSize={pageSize}
+                            onPageChange={onSetPage}
+                            disabled={isPaginationDisabled}
+                        />
+                    </Flex>
+                )}
+            </Container>
+        </Box>
     );
 }
 

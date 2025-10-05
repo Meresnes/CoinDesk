@@ -1,6 +1,7 @@
-import {ButtonGroup, IconButton, Pagination} from "@chakra-ui/react";
+import {ButtonGroup, IconButton, Pagination, Box, Text, Flex} from "@chakra-ui/react";
 import * as React from "react";
 import {LuChevronLeft, LuChevronRight} from "react-icons/lu";
+import styles from "./AssetPagination.module.scss";
 
 interface AssetPaginationProps {
     currentPage: number,
@@ -22,43 +23,52 @@ export const AssetPagination = React.memo(({
     const isNextDisabled = currentPage === totalPages || disabled;
 
     return (
-        <Pagination.Root
-            count={totalCount}
-            pageSize={pageSize}
-            page={currentPage}
-            onPageChange={(pageDetails) => onPageChange(pageDetails.page)}
-        >
-            <ButtonGroup variant={"outline"} size={"sm"}>
-                <Pagination.PrevTrigger 
-                    asChild 
-                    disabled={isPrevDisabled}
-                >
-                    <IconButton>
-                        <LuChevronLeft />
-                    </IconButton>
-                </Pagination.PrevTrigger>
-
-                <Pagination.Items
-                    render={(page) => (
-                        <IconButton
-                            disabled={disabled}
-                            variant={{base: "outline", _selected: "solid"}}
+        <Box className={styles.paginationContainer}>
+            <Pagination.Root
+                count={totalCount}
+                pageSize={pageSize}
+                page={currentPage}
+                onPageChange={(pageDetails) => onPageChange(pageDetails.page)}
+            >
+                <Flex className={styles.paginationContent}>
+                    <Text className={styles.paginationInfo}>
+                        Page {currentPage} of {totalPages} ({totalCount} total assets)
+                    </Text>
+                    
+                    <ButtonGroup variant={"outline"} size={"sm"}>
+                        <Pagination.PrevTrigger 
+                            asChild 
+                            disabled={isPrevDisabled}
                         >
-                            {page.value}
-                        </IconButton>
-                    )}
-                />
+                            <IconButton className={styles.paginationButton}>
+                                <LuChevronLeft />
+                            </IconButton>
+                        </Pagination.PrevTrigger>
 
-                <Pagination.NextTrigger
-                    asChild 
-                    disabled={isNextDisabled}
-                >
-                    <IconButton>
-                        <LuChevronRight />
-                    </IconButton>
-                </Pagination.NextTrigger>
-            </ButtonGroup>
-        </Pagination.Root>
+                        <Pagination.Items
+                            render={(page) => (
+                                <IconButton
+                                    disabled={disabled}
+                                    variant={"outline"}
+                                    className={`${styles.paginationPageButton} ${page.value === currentPage ? styles.active : ""}`}
+                                >
+                                    {page.value}
+                                </IconButton>
+                            )}
+                        />
+
+                        <Pagination.NextTrigger
+                            asChild 
+                            disabled={isNextDisabled}
+                        >
+                            <IconButton className={styles.paginationButton}>
+                                <LuChevronRight />
+                            </IconButton>
+                        </Pagination.NextTrigger>
+                    </ButtonGroup>
+                </Flex>
+            </Pagination.Root>
+        </Box>
     );
 });
 

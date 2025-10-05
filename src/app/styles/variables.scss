@@ -1,0 +1,62 @@
+// Binance Color Scheme Variables
+
+// Background Colors
+$bg-primary: #0B0E11;
+$bg-secondary: #181A20;
+$bg-tertiary: #1E2329;
+$bg-surface: rgba(30, 35, 41, 0.8);
+$bg-surface-hover: rgba(30, 35, 41, 0.95);
+$bg-surface-light: rgba(30, 35, 41, 0.6);
+$bg-elevated: rgba(43, 49, 57, 0.6);
+$bg-elevated-hover: rgba(43, 49, 57, 0.8);
+
+// Border Colors
+$border-primary: rgba(43, 49, 57, 0.8);
+$border-secondary: rgba(255, 255, 255, 0.1);
+$border-accent: rgba(240, 185, 11, 0.4);
+$border-accent-strong: rgba(240, 185, 11, 0.6);
+
+// Accent Colors (Binance Yellow/Gold)
+$accent-primary: #F0B90B;
+$accent-secondary: #FCD535;
+$accent-hover: rgba(240, 185, 11, 0.2);
+$accent-hover-strong: rgba(240, 185, 11, 0.1);
+$accent-focus: rgba(240, 185, 11, 0.6);
+$accent-focus-shadow: rgba(240, 185, 11, 0.15);
+$accent-active: rgba(240, 185, 11, 0.25);
+$accent-active-strong: rgba(240, 185, 11, 0.35);
+
+// Text Colors
+$text-primary: white;
+$text-secondary: #E8E8E8;
+$text-muted: #B7B7B7;
+$text-disabled: rgba(255, 255, 255, 0.4);
+
+// Status Colors
+$status-success: #0ECB81;
+$status-error: #F6465D;
+$status-warning: #FCD535;
+
+// Gradients
+$gradient-primary: linear-gradient(135deg, #F0B90B, #FCD535);
+$gradient-background: linear-gradient(135deg, #0B0E11 0%, #181A20 50%, #1E2329 100%);
+
+// Opacity values
+$opacity-backdrop: 0.95;
+$opacity-overlay: 0.8;
+$opacity-disabled: 0.5;
+
+// Shadows
+$shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.15);
+$shadow-md: 0 4px 16px rgba(0, 0, 0, 0.25);
+$shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.4);
+$shadow-focus: 0 0 0 3px rgba(240, 185, 11, 0.15);
+
+// Backdrop Filter
+$blur-light: blur(10px);
+$blur-heavy: blur(20px);
+
+// Transitions
+$transition-fast: all 0.2s ease;
+$transition-normal: all 0.3s ease;
+

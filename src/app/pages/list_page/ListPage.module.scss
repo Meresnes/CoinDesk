@@ -1,0 +1,45 @@
+@use '../../styles/variables.scss' as *;
+
+.pageContainer {
+    min-height: 100vh;
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+}
+
+.contentContainer {
+    max-width: 80rem;
+    padding: 0 1rem;
+}
+
+.heroSection {
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+.heroTitle {
+    margin-bottom: 1rem;
+    background: $gradient-primary;
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.heroSubtitle {
+    color: $text-muted;
+    max-width: 42rem;
+    margin: 0 auto;
+}
+
+.searchSection {
+    margin-bottom: 2rem;
+}
+
+.gridSection {
+    margin-bottom: 2rem;
+}
+
+.paginationSection {
+    display: flex;
+    justify-content: center;
+}
+

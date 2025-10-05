@@ -1,0 +1,19 @@
+@use '../../../styles/variables.scss' as *;
+
+.tableContainer {
+    border-radius: 0.75rem;
+    overflow: hidden;
+    background: $bg-surface-light;
+    border: 1px solid $border-primary;
+    backdrop-filter: $blur-light;
+}
+
+.tableHeader {
+    background: $bg-elevated;
+}
+
+.tableHeaderCell {
+    color: $text-muted;
+    font-weight: 600;
+}
+
