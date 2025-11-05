@@ -1,5 +1,5 @@
 import {useChart} from "@chakra-ui/charts";
-import {Box, Button, Center, Flex, Group, IconButton, Spinner, Stack} from "@chakra-ui/react";
+import {Box, Button, Center, Container, Flex, Group, IconButton, Spinner, Stack} from "@chakra-ui/react";
 import * as React from "react";
 import {FaChartLine} from "react-icons/fa6";
 import {MdCandlestickChart} from "react-icons/md";
@@ -24,6 +24,7 @@ import {BarChartComponent} from "./components/BarChartComponent";
 import HeaderCoinStats from "./components/HeaderCoinStats";
 import {LineChartComponent} from "./components/LineChartComponent";
 import {PeriodStackLabelValue} from "./components/PeriodStackLabelValue";
+import styles from "./CoinPage.module.scss";
 
 
 function CoinPage() {
@@ -96,107 +97,113 @@ function CoinPage() {
     const coinData = assetMeta.data?.[name || ""];
 
     return (
-        <div>
-            <Box>
-                <HeaderCoinStats
-                    coinData={coinData}
-                    isFetching={assetMeta.isFetching}
-                />
-            </Box>
-            <Box mt={10}>
-                <Flex mb={10} justifyContent={"space-between"} alignItems={"center"}>
-                    <Stack gap={"4"}>
-                        <Group attached>
-                            <IconButton
-                                size={"xs"}
-                                onClick={() => dispatch(setChartType(CHART_TYPE.LINE))}
-                                variant={selectedCharType === CHART_TYPE.LINE ? "surface" : "outline"}
-                            >
-                                <FaChartLine/>
-                            </IconButton>
-                            <IconButton
-                                size={"xs"}
-                                onClick={() => dispatch(setChartType(CHART_TYPE.BAR))}
-                                variant={selectedCharType === CHART_TYPE.BAR ? "surface" : "outline"}
-                            >
-                                <MdCandlestickChart/>
-                            </IconButton>
-                        </Group>
-                    </Stack>
-                    <Stack direction={"row"} gap={5}>
-                        <PeriodStackLabelValue
-                            priceValue={historyPeriodStat.OPEN}
-                            label={"Open"}
-                            currentSortPeriod={currentSortPeriodType}
-                            isLoading={assetHistory.isFetching}
-                        />
-                        <PeriodStackLabelValue
-                            priceValue={historyPeriodStat.HIGH}
-                            label={"High"}
-                            priceTextColor={POSITIVE_PRICE_COLOR}
-                            currentSortPeriod={currentSortPeriodType}
-                            isLoading={assetHistory.isFetching}
-                        />
-                        <PeriodStackLabelValue
-                            priceValue={historyPeriodStat.LOW}
-                            label={"Low"}
-                            priceTextColor={NEGATIVE_PRICE_COLOR}
-                            currentSortPeriod={currentSortPeriodType}
-                            isLoading={assetHistory.isFetching}
-                        />
-                        <PeriodStackLabelValue
-                            priceValue={historyPeriodStat.VOLUME}
-                            label={"Volume"}
-                            currentSortPeriod={currentSortPeriodType}
-                            isLoading={assetHistory.isFetching}
-                        />
-                    </Stack>
-                    <Stack gap={"4"}>
-                        <Group attached>
-                            {Object.values(SortPeriodType).map(item => {
-                                return (
-                                    <Button
-                                        key={item}
-                                        size={"xs"}
-                                        variant={currentSortPeriodType === item ? "surface": "outline"}
-                                        onClick={() => onToggleClick(item)}
-                                    >
-                                        {item}
-                                    </Button>
-                                );
-                            })}
-                        </Group>
-                    </Stack>
-                </Flex>
-                <Box position={"relative"} aria-busy={"true"} userSelect={"none"}>
-                    {selectedCharType === CHART_TYPE.LINE && (
-                        <LineChartComponent
-                            chartData={historyChartData}
-                            chartMeta={chart}
-                            maxPrice={maxPrice}
-                            minPrice={minPrice}
-                            getTimeFormat={getXLineTimeFormat()}
-                        />
-                    )}
-                    {selectedCharType === CHART_TYPE.BAR && (
-                        <BarChartComponent
-                            chartData={historyChartData}
-                            chartMeta={chart}
-                            maxPrice={maxPrice}
-                            minPrice={minPrice}
-                        />
-                    )}
-
-                    {assetHistory.isFetching && (
-                        <Box pos={"absolute"} inset={"0"} bg={"bg/70"}>
-                            <Center h={"full"} w={"ful"}>
-                                <Spinner color={"#F0B90B"}/>
-                            </Center>
-                        </Box>
-                    )}
+        <Box className={styles.pageContainer}>
+            <Container className={styles.contentContainer}>
+                <Box>
+                    <HeaderCoinStats
+                        coinData={coinData}
+                        isFetching={assetMeta.isFetching}
+                    />
                 </Box>
-            </Box>
-        </div>
+                <Box mt={10}>
+                    <Flex mb={10} justifyContent={"space-between"} alignItems={"center"}>
+                        <Stack gap={"4"}>
+                            <Group attached>
+                                <IconButton
+                                    size={"xs"}
+                                    onClick={() => dispatch(setChartType(CHART_TYPE.LINE))}
+                                    variant={selectedCharType === CHART_TYPE.LINE ? "surface" : "outline"}
+                                    className={`${styles.chartToggle} ${selectedCharType === CHART_TYPE.LINE ? styles.active : ""}`}
+                                >
+                                    <FaChartLine/>
+                                </IconButton>
+                                <IconButton
+                                    size={"xs"}
+                                    onClick={() => dispatch(setChartType(CHART_TYPE.BAR))}
+                                    variant={selectedCharType === CHART_TYPE.BAR ? "surface" : "outline"}
+                                    className={`${styles.chartToggle} ${selectedCharType === CHART_TYPE.BAR ? styles.active : ""}`}
+                                >
+                                    <MdCandlestickChart/>
+                                </IconButton>
+                            </Group>
+                        </Stack>
+                        <Stack direction={"row"} gap={5}>
+                            <PeriodStackLabelValue
+                                priceValue={historyPeriodStat.OPEN}
+                                label={"Open"}
+                                currentSortPeriod={currentSortPeriodType}
+                                isLoading={assetHistory.isFetching}
+                            />
+                            <PeriodStackLabelValue
+                                priceValue={historyPeriodStat.HIGH}
+                                label={"High"}
+                                priceTextColor={POSITIVE_PRICE_COLOR}
+                                currentSortPeriod={currentSortPeriodType}
+                                isLoading={assetHistory.isFetching}
+                            />
+                            <PeriodStackLabelValue
+                                priceValue={historyPeriodStat.LOW}
+                                label={"Low"}
+                                priceTextColor={NEGATIVE_PRICE_COLOR}
+                                currentSortPeriod={currentSortPeriodType}
+                                isLoading={assetHistory.isFetching}
+                            />
+                            <PeriodStackLabelValue
+                                priceValue={historyPeriodStat.VOLUME}
+                                label={"Volume"}
+                                currentSortPeriod={currentSortPeriodType}
+                                isLoading={assetHistory.isFetching}
+                            />
+                        </Stack>
+                        <Stack gap={"4"}>
+                            <Group attached>
+                                {Object.values(SortPeriodType).map(item => {
+                                    return (
+                                        <Button
+                                            key={item}
+                                            size={"xs"}
+                                            variant={currentSortPeriodType === item ? "surface": "outline"}
+                                            onClick={() => onToggleClick(item)}
+                                            className={`${styles.periodButton} ${currentSortPeriodType === item ? styles.active : ""}`}
+                                        >
+                                            {item}
+                                        </Button>
+                                    );
+                                })}
+                            </Group>
+                        </Stack>
+                    </Flex>
+                    <Box position={"relative"} aria-busy={"true"} userSelect={"none"}>
+                        {selectedCharType === CHART_TYPE.LINE && (
+                            <LineChartComponent
+                                chartData={historyChartData}
+                                chartMeta={chart}
+                                maxPrice={maxPrice}
+                                minPrice={minPrice}
+                                //TODO: Fix getTimeFormat TS type
+                                getTimeFormat={(value, _index) => getXLineTimeFormat()(value as string)}
+                            />
+                        )}
+                        {selectedCharType === CHART_TYPE.BAR && (
+                            <BarChartComponent
+                                chartData={historyChartData}
+                                chartMeta={chart}
+                                maxPrice={maxPrice}
+                                minPrice={minPrice}
+                            />
+                        )}
+
+                        {assetHistory.isFetching && (
+                            <Box pos={"absolute"} inset={"0"} bg={"bg/70"}>
+                                <Center h={"full"} w={"ful"}>
+                                    <Spinner color={"#F0B90B"}/>
+                                </Center>
+                            </Box>
+                        )}
+                    </Box>
+                </Box>
+            </Container>
+        </Box>
     );
 }
 

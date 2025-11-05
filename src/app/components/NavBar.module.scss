@@ -56,6 +56,8 @@
 
 .searchBox {
     width: 300px;
+    max-width: 100%;
+    flex: 1 1 300px;
 }
 
 .searchInput {
@@ -80,3 +82,21 @@
     color: $accent-primary !important;
 }
 
+@media (max-width: 768px) {
+    .navbarContent {
+        height: auto;
+        flex-wrap: wrap;
+        gap: 1rem;
+    }
+
+    .navLinks {
+        gap: 1rem;
+    }
+
+    .searchBox {
+        width: 100%;
+        max-width: 100%;
+        flex: 0 0 100%;
+        margin-bottom: 1rem;
+    }
+}

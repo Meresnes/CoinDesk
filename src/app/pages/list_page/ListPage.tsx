@@ -46,7 +46,7 @@ function ListPage() {
 
     return (
         <Box className={styles.pageContainer}>
-            <Container className={styles.contentContainer} maxW={"7xl"}>
+            <Container className={styles.contentContainer}>
                 <Box className={styles.heroSection}>
                     <Heading size={"2xl"} mb={4} className={styles.heroTitle}>
                         CoinDesk

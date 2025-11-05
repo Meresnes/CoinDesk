@@ -4,7 +4,7 @@ import {
     Combobox,
     Portal,
     useListCollection, HStack,
-    Spinner, Span, Avatar, Heading,
+    Spinner, Span, Avatar, Heading
 } from "@chakra-ui/react";
 import {debounce} from "lodash";
 import * as React from "react";
@@ -88,7 +88,7 @@ export default function NavBar (): React.JSX.Element {
                             collection={collection}
                             onInputValueChange={(e) => setSearch(e.inputValue)}
                             onValueChange={details => onCoinClick(details.items[0].SYMBOL)}
-                            width={"300px"}
+                            width={"100%"}
                             openOnClick={true}
                         >
                             <Combobox.Control>

@@ -23,6 +23,7 @@ export function BarChartComponent ({chartMeta, chartData, maxPrice, minPrice}: I
                     tickLine={false}
                     dataKey={chartMeta.key("date")}
                     tickFormatter={chartMeta.formatDate({month: "short", day: "2-digit"})}
+                    tick={{fill: 'white'}}
                 />
                 <YAxis
                     orientation={"right"}
@@ -36,6 +37,7 @@ export function BarChartComponent ({chartMeta, chartData, maxPrice, minPrice}: I
                         maximumSignificantDigits:6,
                         maximumFractionDigits: 2,
                     })}
+                    tick={{fill: 'white'}}
                 />
                 <Tooltip
                     animationDuration={100}

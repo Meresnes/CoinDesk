@@ -13,7 +13,7 @@ export const TopListWidgets = React.memo(() => {
                     Market Overview
                 </Heading>
                 <Text className={styles.subtitle} fontSize={"lg"}>
-                    Track the top performing cryptocuыrrencies
+                    Track the top performing crypto currencies
                 </Text>
             </Box>
 

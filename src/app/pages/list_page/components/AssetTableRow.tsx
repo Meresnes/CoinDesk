@@ -45,7 +45,7 @@ export const AssetTableRow = React.memo(({item, itemMeta, onCoinClick}: AssetTab
                         <Heading size={"sm"} className={styles.assetName}>
                             {item.NAME}
                         </Heading>
-                        <Badge colorPalette={"yellow"} variant={"subtle"} size={"xs"}>
+                        <Badge width={"fit-content"} colorPalette={"yellow"} variant={"subtle"} size={"xs"}>
                             {item.SYMBOL}
                         </Badge>
                     </Flex>

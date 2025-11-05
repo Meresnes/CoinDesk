@@ -2,7 +2,8 @@
 
 .tableRow {
     transition: $transition-fast;
-
+    background: $bg-surface;
+    
     &:hover {
         background: rgba(240, 185, 11, 0.08);
     }

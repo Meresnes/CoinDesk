@@ -12,6 +12,7 @@ import {
     Text
 } from "@chakra-ui/react";
 import type {AssetListItem} from "../../../types/Asset";
+import styles from "../CoinPage.module.scss";
 
 type IProps = {
     coinData?: AssetListItem,
@@ -33,17 +34,17 @@ export default function HeaderCoinStats({coinData, isFetching}: IProps) {
                             <Avatar.Image src={coinData.LOGO_URL} />
                         </Avatar.Root>
                         <Stack gap={"0"}>
-                            <Text color={"fg.muted"} textStyle={"sm"}>
+                            <Text className={styles.mutedText} textStyle={"sm"}>
                                 {coinData.SYMBOL}
                             </Text>
-                            <Text fontWeight={"bold"} textStyle={"lg"}>
+                            <Text className={styles.headerText} fontWeight={"bold"} textStyle={"lg"}>
                                 {coinData.NAME}
                             </Text>
                         </Stack>
                     </HStack>
                     <Flex direction={"column"} justifyContent={"center"} alignItems={"center"} gap={5}>
                         <Stat.Root size={"lg"}>
-                            <Stat.ValueText gap={3} fontStyle={"italic"} >
+                            <Stat.ValueText className={styles.headerText} gap={3} fontStyle={"italic"} >
                                 <FormatNumber
                                     value={coinData.PRICE_USD || 0}
                                     style={"currency"}
@@ -73,27 +74,27 @@ export default function HeaderCoinStats({coinData, isFetching}: IProps) {
                         </Stat.Root>
                         <Flex gap={10}>
                             <Stack gap={"2"}>
-                                <Text color={"fg.muted"} textStyle={"sm"}>
+                                <Text className={styles.mutedText} textStyle={"sm"}>
                                     {"Market Cap" + " #" +  coinData.TOPLIST_BASE_RANK.TOTAL_MKT_CAP_USD}
                                 </Text>
-                                <Text fontWeight={"bold"} textStyle={"s"}>
+                                <Text className={styles.headerText} fontWeight={"bold"} textStyle={"s"}>
                                     <FormatNumber value={coinData.CIRCULATING_MKT_CAP_USD} style={"currency"} currency={"USD"} />
                                 </Text>
                             </Stack>
                             <Stack gap={"2"}>
-                                <Text color={"fg.muted"} textStyle={"sm"}>
+                                <Text className={styles.mutedText} textStyle={"sm"}>
                                     {"Volume (24h)" + " #" +  coinData.TOPLIST_BASE_RANK.SPOT_MOVING_24_HOUR_QUOTE_VOLUME_USD}
                                 </Text>
-                                <Text fontWeight={"bold"} textStyle={"s"}>
+                                <Text className={styles.headerText} fontWeight={"bold"} textStyle={"s"}>
                                     <FormatNumber value={coinData.SPOT_MOVING_24_HOUR_QUOTE_VOLUME_USD} style={"currency"} currency={"USD"} />
                                 </Text>
                             </Stack>
                             <Stack gap={"2"} >
-                                <Text color={"fg.muted"} textStyle={"sm"}>
+                                <Text className={styles.mutedText} textStyle={"sm"}>
                                     {"Supply (Circ. / Total / Max)"}
                                 </Text>
                                 <Flex gap={1} textStyle={"s"}>
-                                    <Text fontWeight={"bold"}>
+                                    <Text className={styles.headerText} fontWeight={"bold"}>
                                         <FormatNumber
                                             value={coinData.SUPPLY_CIRCULATING}
                                             notation={"compact"}
@@ -104,7 +105,7 @@ export default function HeaderCoinStats({coinData, isFetching}: IProps) {
                                         />
                                     </Text>
                                     {"/"}
-                                    <Text fontWeight={"bold"}>
+                                    <Text className={styles.headerText} fontWeight={"bold"}>
                                         <FormatNumber
                                             value={coinData.SUPPLY_TOTAL}
                                             notation={"compact"}
@@ -115,7 +116,7 @@ export default function HeaderCoinStats({coinData, isFetching}: IProps) {
                                         />
                                     </Text>
                                     {"/"}
-                                    <Text fontWeight={"bold"}>
+                                    <Text className={styles.headerText} fontWeight={"bold"}>
                                         {coinData.SUPPLY_MAX === -1.00 ? (
                                             "∞"
                                         ): (
