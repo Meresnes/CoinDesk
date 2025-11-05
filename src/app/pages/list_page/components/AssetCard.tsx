@@ -29,13 +29,13 @@ export const AssetCard = React.memo(({item, itemMeta, onCoinClick}: AssetCardPro
 
     return (
         <Box className={styles.card} onClick={() => onCoinClick(item.SYMBOL)}>
-            <Flex className={styles.cardHeader}>
-                <HStack className={styles.cardInfo} gap={3}>
+            <Flex justifyContent={"space-between"} alignItems={"flex-start"} mb={3}>
+                <HStack gap={3}>
                     <Avatar.Root size={"md"}>
                         <Avatar.Fallback name={item.NAME} />
                         <Avatar.Image src={item.LOGO_URL} />
                     </Avatar.Root>
-                    <VStack className={styles.cardDetails} align={"start"} gap={1}>
+                    <VStack align={"start"} gap={1}>
                         <Heading size={"sm"} className={styles.cardTitle}>
                             {item.NAME}
                         </Heading>
@@ -49,7 +49,7 @@ export const AssetCard = React.memo(({item, itemMeta, onCoinClick}: AssetCardPro
                     </VStack>
                 </HStack>
                 
-                <VStack className={styles.cardPrice} align={"end"} gap={1}>
+                <VStack align={"end"} gap={1}>
                     <Text className={styles.priceValue}>
                         <FormatNumber
                             value={priceUsd}
@@ -81,7 +81,7 @@ export const AssetCard = React.memo(({item, itemMeta, onCoinClick}: AssetCardPro
                 </VStack>
             </Flex>
             
-            <HStack className={styles.cardFooter} justify={"space-between"}>
+            <HStack justify={"space-between"} mt={2}>
                 <Text className={styles.footerText}>
                     {item.ASSET_TYPE}
                 </Text>

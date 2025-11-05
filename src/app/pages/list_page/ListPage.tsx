@@ -75,7 +75,7 @@ function ListPage() {
                 </Box>
                 
                 {!isSearchMode && totalAssets && (
-                    <Flex className={styles.paginationSection}>
+                    <Flex justifyContent={"center"}>
                         <AssetPagination
                             currentPage={page}
                             totalCount={totalAssets || 0}

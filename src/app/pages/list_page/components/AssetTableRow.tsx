@@ -41,7 +41,7 @@ export const AssetTableRow = React.memo(({item, itemMeta, onCoinClick}: AssetTab
                         <Avatar.Fallback name={item.NAME} />
                         <Avatar.Image src={item.LOGO_URL} />
                     </Avatar.Root>
-                    <Flex className={styles.assetInfo} direction={"column"} gap={1}>
+                    <Flex direction={"column"} gap={1}>
                         <Heading size={"sm"} className={styles.assetName}>
                             {item.NAME}
                         </Heading>
@@ -55,7 +55,7 @@ export const AssetTableRow = React.memo(({item, itemMeta, onCoinClick}: AssetTab
                 {item.ASSET_TYPE}
             </Table.Cell>
             <Table.Cell textAlign={"right"}>
-                <Flex className={styles.priceCell} direction={"column"} align={"end"} gap={1}>
+                <Flex direction={"column"} align={"end"} gap={1}>
                     <Text className={styles.priceValue}>
                         <FormatNumber
                             value={priceUsd}
@@ -69,7 +69,7 @@ export const AssetTableRow = React.memo(({item, itemMeta, onCoinClick}: AssetTab
                         variant={"solid"}
                         size={"sm"}
                     >
-                        <Flex className={styles.priceChange} align={"center"} gap={1}>
+                        <Flex align={"center"} gap={1}>
                             {!isPriceStand && (
                                 isPriceUp ? (
                                     <Text>↗</Text>

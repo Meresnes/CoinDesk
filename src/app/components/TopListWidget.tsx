@@ -48,9 +48,12 @@ function TopListWidget (props: IProps): React.ReactNode {
                                 <Flex
                                     key={item.ID}
                                     className={styles.widgetItem}
+                                    justifyContent={"space-between"}
+                                    alignItems={"center"}
+                                    gap={2}
                                     onClick={() => onCoinClick(item.SYMBOL)}
                                 >
-                                    <Flex className={styles.widgetItemContent}>
+                                    <Flex gap={2} alignItems={"center"} overflow={"hidden"}>
                                         <FormatNumber
                                             value={index + 1}
                                         />
@@ -76,7 +79,7 @@ function TopListWidget (props: IProps): React.ReactNode {
                                             </Heading>
                                         </Tooltip>
                                     </Flex>
-                                    <Flex className={styles.widgetItemPrice}>
+                                    <Flex justifyContent={"flex-end"} width={"50%"} gap={2} alignItems={"center"} overflow={"hidden"}>
                                         <FormatNumber
                                             value={item.PRICE_USD || 0}
                                             style={"currency"}

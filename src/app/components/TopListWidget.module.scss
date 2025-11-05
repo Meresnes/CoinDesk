@@ -1,15 +1,12 @@
 @use '../styles/variables.scss' as *;
 
 .widgetItem {
-    display: flex;
-    gap: 0.5rem;
-    justify-content: space-between;
-    align-items: center;
     cursor: pointer;
     font-size: 0.875rem;
     transition: $transition-normal;
     border-radius: 5px;
     border: 1px solid transparent;
+    padding-left: 0.5rem;
 
     &:hover {
         transform: scale(1.05);
@@ -18,24 +15,5 @@
         border: 1px solid $border-accent;
         background: $accent-hover-strong;
     }
-}
-
-.widgetItemContent {
-    display: flex;
-    gap: 0.5rem;
-    padding-left: 0.5rem;
-    align-items: center;
-    overflow: hidden;
-}
-
-.widgetItemPrice {
-    display: flex;
-    justify-content: flex-end;
-    width: 50%;
-    gap: 10px;
-    align-items: center;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    overflow: hidden;
 }
 

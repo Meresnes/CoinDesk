@@ -30,7 +30,7 @@ export const AssetPagination = React.memo(({
                 page={currentPage}
                 onPageChange={(pageDetails) => onPageChange(pageDetails.page)}
             >
-                <Flex className={styles.paginationContent}>
+                <Flex alignItems={"center"} justifyContent={"space-between"} gap={4}>
                     <Text className={styles.paginationInfo}>
                         Page {currentPage} of {totalPages} ({totalCount} total assets)
                     </Text>
