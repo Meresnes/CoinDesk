@@ -14,7 +14,7 @@ createRoot(document.getElementById("root")!).render(
             <BrowserRouter>
                 <NavBar/>
                 <Routes>
-                    <Route path="/" element={<Navigate to="/list" />} />
+                    <Route path={"/"} element={<Navigate to={"/list"} />} />
                     <Route path={"list"} element={<ListPage />} />
                     <Route path={"coin/:name"} element={<CoinPage />} />
                 </Routes>

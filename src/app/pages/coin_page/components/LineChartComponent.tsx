@@ -26,7 +26,7 @@ export function LineChartComponent ({chartData, chartMeta, minPrice, maxPrice, g
                     // tickFormatter={getXLineTimeFormat()}
                     tickFormatter={getTimeFormat}
                     stroke={chartMeta.color("border")}
-                    tick={{fill: 'white'}}
+                    tick={{fill: "white"}}
                 />
                 <YAxis
                     axisLine
@@ -41,7 +41,7 @@ export function LineChartComponent ({chartData, chartMeta, minPrice, maxPrice, g
                     })}
                     tickMargin={10}
                     stroke={chartMeta.color("border")}
-                    tick={{fill: 'white'}}
+                    tick={{fill: "white"}}
                 />
                 <Tooltip animationDuration={100} content={<Chart.Tooltip />} />
                 <Line

@@ -1,8 +1,8 @@
 import {Flex, Box, Heading, Text} from "@chakra-ui/react";
 import * as React from "react";
 import TopListWidget from "../../../components/TopListWidget";
-import {SortBy, SortDirection } from "../../../types/Sort";
-import {NEGATIVE_PRICE_COLOR, POSITIVE_PRICE_COLOR } from "../../../utils/ChartsColort";
+import {SortBy, SortDirection} from "../../../types/Sort";
+import {NEGATIVE_PRICE_COLOR, POSITIVE_PRICE_COLOR} from "../../../utils/ChartsColort";
 import styles from "./TopListWidgets.module.scss";
 
 export const TopListWidgets = React.memo(() => {

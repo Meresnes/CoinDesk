@@ -20,11 +20,11 @@ import {
 import {HistoryTime} from "../../types/Asset";
 import {SortPeriodType} from "../../types/Sort";
 import {NEGATIVE_PRICE_COLOR, POSITIVE_PRICE_COLOR} from "../../utils/ChartsColort";
+import styles from "./CoinPage.module.scss";
 import {BarChartComponent} from "./components/BarChartComponent";
 import HeaderCoinStats from "./components/HeaderCoinStats";
 import {LineChartComponent} from "./components/LineChartComponent";
 import {PeriodStackLabelValue} from "./components/PeriodStackLabelValue";
-import styles from "./CoinPage.module.scss";
 
 
 function CoinPage() {
@@ -181,7 +181,7 @@ function CoinPage() {
                                 maxPrice={maxPrice}
                                 minPrice={minPrice}
                                 //TODO: Fix getTimeFormat TS type
-                                getTimeFormat={(value, _index) => getXLineTimeFormat()(value as string)}
+                                getTimeFormat={(value) => getXLineTimeFormat()(value as string)}
                             />
                         )}
                         {selectedCharType === CHART_TYPE.BAR && (
