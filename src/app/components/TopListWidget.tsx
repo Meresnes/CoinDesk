@@ -13,6 +13,7 @@ import {useNavigate} from "react-router";
 import {useGetAssetListQuery} from "../services/assetService";
 import type {AssetListQueryPayload} from "../types/Asset";
 import {Tooltip} from "./Tooltip";
+import styles from "./TopListWidget.module.scss";
 
 type IProps = {
     title?: React.ReactNode,
@@ -46,24 +47,13 @@ function TopListWidget (props: IProps): React.ReactNode {
                             return (
                                 <Flex
                                     key={item.ID}
-                                    gap={2}
+                                    className={styles.widgetItem}
                                     justifyContent={"space-between"}
                                     alignItems={"center"}
-                                    cursor={"pointer"}
-                                    textStyle={"xs"}
-                                    transition={"0.3s linear"}
-                                    borderRadius={"5px"}
-                                    border={"1px solid transparent"}
+                                    gap={2}
                                     onClick={() => onCoinClick(item.SYMBOL)}
-                                    _hover={{
-                                        transform: "scale(1.05)",
-                                        marginLeft: "25px",
-                                        marginRight: "10px",
-                                        border: "#e8e8ea 1px solid",
-                                        background: "#e8e8ea"
-                                    }}
                                 >
-                                    <Flex gap={2} pl={2} alignItems={"center"} overflow={"hidden"}>
+                                    <Flex gap={2} alignItems={"center"} overflow={"hidden"}>
                                         <FormatNumber
                                             value={index + 1}
                                         />
@@ -89,15 +79,7 @@ function TopListWidget (props: IProps): React.ReactNode {
                                             </Heading>
                                         </Tooltip>
                                     </Flex>
-                                    <Flex
-                                        justifyContent={"flex-end"}
-                                        width={"50%"}
-                                        gap={"10px"}
-                                        alignItems={"center"}
-                                        textOverflow={"ellipsis"}
-                                        whiteSpace={"nowrap"}
-                                        overflow={"hidden"}
-                                    >
+                                    <Flex justifyContent={"flex-end"} width={"50%"} gap={2} alignItems={"center"} overflow={"hidden"}>
                                         <FormatNumber
                                             value={item.PRICE_USD || 0}
                                             style={"currency"}

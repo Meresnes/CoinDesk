@@ -1,0 +1,51 @@
+@use '../../styles/variables.scss' as *;
+
+.contentContainer {
+    max-width: 80rem;
+    padding: 0 1rem;
+}
+
+.pageContainer {
+    min-height: 100vh;
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+}
+
+// New styles
+
+.headerText {
+    color: $text-primary;
+}
+
+.mutedText {
+    color: $text-muted;
+}
+
+.chartToggle {
+    color: $text-primary;
+    background: $bg-elevated;
+
+    &.active {
+        background: $accent-active;
+        // background: red;
+        border-color: $border-accent-strong;
+    }
+
+    &:hover {
+        background: $accent-hover;
+    }
+}
+
+.periodButton {
+    color: $text-primary;
+    background: $bg-elevated;
+
+    &.active {
+        background: $accent-active;
+        border-color: $border-accent-strong;
+    }
+
+    &:hover {
+        background: $accent-hover;
+    }
+}

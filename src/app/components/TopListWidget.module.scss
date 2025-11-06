@@ -1,0 +1,19 @@
+@use '../styles/variables.scss' as *;
+
+.widgetItem {
+    cursor: pointer;
+    font-size: 0.875rem;
+    transition: $transition-normal;
+    border-radius: 5px;
+    border: 1px solid transparent;
+    padding-left: 0.5rem;
+
+    &:hover {
+        transform: scale(1.05);
+        margin-left: 25px;
+        margin-right: 10px;
+        border: 1px solid $border-accent;
+        background: $accent-hover-strong;
+    }
+}
+

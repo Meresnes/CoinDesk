@@ -1,0 +1,39 @@
+@use '../../../styles/variables.scss' as *;
+
+.container {
+    width: 100%;
+    margin-bottom: 2rem;
+}
+
+.header {
+    text-align: center;
+    margin-bottom: 1.5rem;
+}
+
+.title {
+    background: $gradient-primary;
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.subtitle {
+    color: $text-muted;
+}
+
+.widgetsGrid {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    align-items: center;
+    gap: 1.5rem;
+
+    @media (max-width: 1068px) {
+        flex-direction: column;
+    }
+}
+
+.widgetBox {
+    flex: 1;
+}
+

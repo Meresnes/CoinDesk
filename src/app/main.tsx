@@ -1,12 +1,12 @@
 import {ChakraProvider, defaultSystem} from "@chakra-ui/react";
 import {createRoot} from "react-dom/client";
 import {Provider} from "react-redux";
-import {BrowserRouter, Route, Routes} from "react-router";
+import {BrowserRouter, Navigate, Route, Routes} from "react-router";
 import NavBar from "./components/NavBar";
 import CoinPage from "./pages/coin_page/CoinPage";
 import ListPage from "./pages/list_page/ListPage";
 import {store} from "./store";
-import "./index.css";
+import "./index.scss";
 
 createRoot(document.getElementById("root")!).render(
     <Provider store={store}>
@@ -14,6 +14,7 @@ createRoot(document.getElementById("root")!).render(
             <BrowserRouter>
                 <NavBar/>
                 <Routes>
+                    <Route path={"/"} element={<Navigate to={"/list"} />} />
                     <Route path={"list"} element={<ListPage />} />
                     <Route path={"coin/:name"} element={<CoinPage />} />
                 </Routes>

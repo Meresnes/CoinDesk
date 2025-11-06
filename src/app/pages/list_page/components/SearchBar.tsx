@@ -1,5 +1,6 @@
-import {Flex, IconButton, Input} from "@chakra-ui/react";
+import {Flex, IconButton, Input, Box} from "@chakra-ui/react";
 import {LuSearch, LuX} from "react-icons/lu";
+import styles from "./SearchBar.module.scss";
 
 interface SearchBarProps {
     searchValue: string,
@@ -7,31 +8,32 @@ interface SearchBarProps {
     placeholder?: string
 }
 
-export function SearchBar({searchValue, onSearchChange, placeholder = "Search asset..."}: SearchBarProps) {
+export function SearchBar({searchValue, onSearchChange, placeholder = "Search cryptocurrencies..."}: SearchBarProps) {
     return (
-        <Flex width={"full"} position={"relative"} alignItems={"center"}>
-            <LuSearch style={{position: "absolute", left: "0.75rem", zIndex: 1, color: "gray.300"}} />
-            <Input
-                placeholder={placeholder}
-                pl={"2.5rem"}
-                pr={searchValue ? "2.5rem" : "1rem"}
-                value={searchValue}
-                onChange={(e) => onSearchChange(e.target.value)}
-            />
-            {searchValue && (
-                <IconButton
-                    aria-label={"Clear search"}
-                    variant={"ghost"}
-                    size={"sm"}
-                    position={"absolute"}
-                    right={"0.5rem"}
-                    zIndex={1}
-                    onClick={() => onSearchChange("")}
-                >
-                    <LuX />
-                </IconButton>
-            )}
-        </Flex>
+        <Box className={styles.searchContainer}>
+            <Flex className={styles.searchFlex}>
+                <Box className={styles.searchIcon}>
+                    <LuSearch size={20} />
+                </Box>
+                <Input
+                    placeholder={placeholder}
+                    value={searchValue}
+                    onChange={(e) => onSearchChange(e.target.value)}
+                    className={styles.searchInput}
+                />
+                {searchValue && (
+                    <IconButton
+                        aria-label={"Clear search"}
+                        variant={"ghost"}
+                        size={"sm"}
+                        className={styles.clearButton}
+                        onClick={() => onSearchChange("")}
+                    >
+                        <LuX size={16} />
+                    </IconButton>
+                )}
+            </Flex>
+        </Box>
     );
 }
 

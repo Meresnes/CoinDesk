@@ -1,23 +1,25 @@
 import {
     Avatar,
     Badge,
+    Box,
     Flex,
     FormatNumber,
     Heading,
-    Table,
-    Text
+    Text,
+    HStack,
+    VStack
 } from "@chakra-ui/react";
 import * as React from "react";
 import type {Asset, AssetListItem} from "../../../types/Asset";
-import styles from "./AssetTableRow.module.scss";
+import styles from "./AssetCard.module.scss";
 
-interface AssetTableRowProps {
+interface AssetCardProps {
     item: AssetListItem | Asset,
     itemMeta?: AssetListItem,
     onCoinClick: (symbol: string) => void
 }
 
-export const AssetTableRow = React.memo(({item, itemMeta, onCoinClick}: AssetTableRowProps) => {
+export const AssetCard = React.memo(({item, itemMeta, onCoinClick}: AssetCardProps) => {
     const priceSource = "PRICE_USD" in item ? item as AssetListItem : itemMeta;
     const priceUsd = priceSource?.PRICE_USD ?? 0;
     const priceChangeValue = priceSource?.SPOT_MOVING_24_HOUR_CHANGE_PERCENTAGE_USD ?? 0;
@@ -26,36 +28,28 @@ export const AssetTableRow = React.memo(({item, itemMeta, onCoinClick}: AssetTab
     const isPriceStand = priceChangeValue === 0;
 
     return (
-        <Table.Row key={item.ID} className={styles.tableRow}>
-            <Table.Cell className={styles.idCell}>
-                <FormatNumber value={item.ID} />
-            </Table.Cell>
-            <Table.Cell>
-                <Flex
-                    className={styles.assetCell}
-                    alignItems={"center"}
-                    gap={4}
-                    onClick={() => onCoinClick(item.SYMBOL)}
-                >
-                    <Avatar.Root size={"sm"}>
+        <Box className={styles.card} onClick={() => onCoinClick(item.SYMBOL)}>
+            <Flex justifyContent={"space-between"} alignItems={"flex-start"} mb={3}>
+                <HStack gap={3}>
+                    <Avatar.Root size={"md"}>
                         <Avatar.Fallback name={item.NAME} />
                         <Avatar.Image src={item.LOGO_URL} />
                     </Avatar.Root>
-                    <Flex direction={"column"} gap={1}>
-                        <Heading size={"sm"} className={styles.assetName}>
+                    <VStack align={"start"} gap={1}>
+                        <Heading size={"sm"} className={styles.cardTitle}>
                             {item.NAME}
                         </Heading>
-                        <Badge width={"fit-content"} colorPalette={"yellow"} variant={"subtle"} size={"xs"}>
+                        <Badge 
+                            colorPalette={"yellow"} 
+                            variant={"subtle"}
+                            size={"sm"}
+                        >
                             {item.SYMBOL}
                         </Badge>
-                    </Flex>
-                </Flex>
-            </Table.Cell>
-            <Table.Cell className={styles.categoryCell}>
-                {item.ASSET_TYPE}
-            </Table.Cell>
-            <Table.Cell textAlign={"right"}>
-                <Flex direction={"column"} align={"end"} gap={1}>
+                    </VStack>
+                </HStack>
+                
+                <VStack align={"end"} gap={1}>
                     <Text className={styles.priceValue}>
                         <FormatNumber
                             value={priceUsd}
@@ -69,7 +63,7 @@ export const AssetTableRow = React.memo(({item, itemMeta, onCoinClick}: AssetTab
                         variant={"solid"}
                         size={"sm"}
                     >
-                        <Flex align={"center"} gap={1}>
+                        <HStack gap={1}>
                             {!isPriceStand && (
                                 isPriceUp ? (
                                     <Text>↗</Text>
@@ -82,11 +76,23 @@ export const AssetTableRow = React.memo(({item, itemMeta, onCoinClick}: AssetTab
                                 style={"percent"}
                                 maximumFractionDigits={2}
                             />
-                        </Flex>
+                        </HStack>
                     </Badge>
-                </Flex>
-            </Table.Cell>
-        </Table.Row>
+                </VStack>
+            </Flex>
+            
+            <HStack justify={"space-between"} mt={2}>
+                <Text className={styles.footerText}>
+                    {item.ASSET_TYPE}
+                </Text>
+                <Text className={styles.footerId}>
+                    #{item.ID}
+                </Text>
+            </HStack>
+        </Box>
     );
 });
+
+
+
 

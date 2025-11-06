@@ -1,0 +1,102 @@
+@use '../styles/variables.scss' as *;
+
+.navbar {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    background: $bg-surface;
+    backdrop-filter: $blur-heavy;
+    border-bottom: 1px solid $border-primary;
+    margin-bottom: 1.5rem;
+}
+
+.navbarContainer {
+    max-width: 80rem;
+    margin: 0 auto;
+    padding: 0 1rem;
+}
+
+.navbarContent {
+    height: 70px;
+    gap: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.logo {
+    text-decoration: none;
+}
+
+.logoText {
+    background: $gradient-primary;
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.navLinks {
+    display: flex;
+    gap: 2rem;
+    align-items: center;
+}
+
+.navLink {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 0.75rem;
+    border-radius: 0.5rem;
+    transition: $transition-normal;
+
+    &:hover {
+        background: $accent-hover-strong;
+    }
+}
+
+.searchBox {
+    width: 300px;
+    max-width: 100%;
+    flex: 1 1 300px;
+}
+
+.searchInput {
+    background: $bg-surface;
+    border: 1px solid $border-primary;
+    border-radius: 0.75rem;
+    color: $text-primary;
+
+    &::placeholder {
+        color: $text-muted;
+    }
+}
+
+.searchDropdown {
+    background: $bg-surface;
+    border: 1px solid $border-primary;
+    border-radius: 0.75rem;
+    backdrop-filter: $blur-heavy;
+}
+
+.searchSpinner {
+    color: $accent-primary;
+}
+
+@media (max-width: 768px) {
+    .navbarContent {
+        height: auto;
+        flex-wrap: wrap;
+        gap: 1rem;
+    }
+
+    .navLinks {
+        gap: 1rem;
+    }
+
+    .searchBox {
+        width: 100%;
+        max-width: 100%;
+        flex: 0 0 100%;
+        margin-bottom: 1rem;
+    }
+}

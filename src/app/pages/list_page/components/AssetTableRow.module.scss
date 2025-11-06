@@ -1,0 +1,42 @@
+@use '../../../styles/variables.scss' as *;
+
+.tableRow {
+    transition: $transition-fast;
+    background: $bg-surface;
+    
+    &:hover {
+        background: rgba(240, 185, 11, 0.08);
+    }
+}
+
+.idCell {
+    color: $text-muted;
+    font-weight: 500;
+}
+
+.assetCell {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    cursor: pointer;
+    transition: $transition-fast;
+
+    &:hover {
+        transform: translateX(4px);
+    }
+}
+
+.assetName {
+    color: $text-primary;
+}
+
+.categoryCell {
+    color: $text-secondary;
+}
+
+.priceValue {
+    font-size: 1rem;
+    font-weight: 700;
+    color: $text-primary;
+}
+

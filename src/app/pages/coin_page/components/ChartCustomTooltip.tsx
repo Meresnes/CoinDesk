@@ -9,7 +9,7 @@ export function ChartCustomTooltip (param: TooltipProps<number, string>): React.
         const data = param.payload[0].payload;
         return (
             <Box bg={"blackAlpha.700"} borderRadius={"5px"} p={1} w={"full"}>
-                <Stack gap={"1"} color={"white"} display={"flex"} direction={"row"} >
+                <Stack gap={"1"} color={"white"} direction={"row"} >
                     <Text textStyle={"xs"}>
                         {"Open: "}
                     </Text>
@@ -24,7 +24,7 @@ export function ChartCustomTooltip (param: TooltipProps<number, string>): React.
                         />
                     </Text>
                 </Stack>
-                <Stack gap={"1"} color={"white"} display={"flex"} direction={"row"}>
+                <Stack gap={"1"} color={"white"} direction={"row"}>
                     <Text textStyle={"xs"}>
                         {"High: "}
                     </Text>
@@ -39,7 +39,7 @@ export function ChartCustomTooltip (param: TooltipProps<number, string>): React.
                         />
                     </Text>
                 </Stack>
-                <Stack gap={"1"} color={"white"} display={"flex"} direction={"row"}>
+                <Stack gap={"1"} color={"white"} direction={"row"}>
                     <Text textStyle={"xs"}>
                         {"Low: "}
                     </Text>
@@ -54,7 +54,7 @@ export function ChartCustomTooltip (param: TooltipProps<number, string>): React.
                         />
                     </Text>
                 </Stack>
-                <Stack gap={"1"} color={"white"} textStyle={"xs"} display={"flex"} direction={"row"}>
+                <Stack gap={"1"} color={"white"} textStyle={"xs"} direction={"row"}>
                     <Text>
                         {"Close: "}
                     </Text>
@@ -69,7 +69,7 @@ export function ChartCustomTooltip (param: TooltipProps<number, string>): React.
                         />
                     </Text>
                 </Stack>
-                <Stack gap={"1"} color={"white"} textStyle={"xs"} display={"flex"} direction={"row"}>
+                <Stack gap={"1"} color={"white"} textStyle={"xs"} direction={"row"}>
                     <Text>
                         {"Date: "}
                     </Text>

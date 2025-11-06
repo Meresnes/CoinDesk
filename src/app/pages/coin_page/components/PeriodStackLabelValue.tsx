@@ -1,5 +1,6 @@
 import {FormatNumber, HStack, SkeletonText, Stack, Text} from "@chakra-ui/react";
 import {SortPeriodType} from "../../../types/Sort";
+import styles from "../CoinPage.module.scss";
 
 type IProps = {
     label: string,
@@ -17,10 +18,10 @@ export function PeriodStackLabelValue (props: IProps) {
         <>
             {!isLoading && priceValue ? (
                 <Stack gap={"1"}>
-                    <Text color={"fg.muted"} textStyle={"sm"}>
+                    <Text className={styles.mutedText} textStyle={"sm"}>
                         {currentSortPeriod + " " + label}
                     </Text>
-                    <Text fontWeight={"bold"} textStyle={"xs"} color={priceTextColor}>
+                    <Text className={styles.headerText} fontWeight={"bold"} textStyle={"xs"} color={priceTextColor}>
                         <FormatNumber
                             value={priceValue}
                             notation={"compact"}
