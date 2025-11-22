@@ -1,4 +1,5 @@
 import {Language} from "../types/Language";
+import {type IBaseItem, type IBaseItemWithUpdated} from "./Common";
 import {SortBy, SortDirection} from "./Sort";
 
 export enum HistoryTime {
@@ -79,12 +80,6 @@ export interface AssetSearchResponse {
     LIST: Asset[]
 }
 
-export interface IBaseItem {
-    ID: number,
-    TYPE: number,
-    CREATED_ON: number
-}
-
 export interface Asset extends IBaseItem {
     SYMBOL: string,
     URI: string,
@@ -100,11 +95,10 @@ export interface Asset extends IBaseItem {
     LOGO_URL: string
 }
 
-export interface AssetListItem extends Asset {
+export interface AssetListItem extends Asset, IBaseItemWithUpdated {
     ID_LEGACY: number,
     PRICE_USD?: number,
     SPOT_MOVING_24_HOUR_CHANGE_PERCENTAGE_USD?: number,
-    UPDATED_ON: number,
     LAUNCH_DATE: number
 }
 

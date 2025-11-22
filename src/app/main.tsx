@@ -5,6 +5,7 @@ import {BrowserRouter, Navigate, Route, Routes} from "react-router";
 import NavBar from "./components/NavBar";
 import CoinPage from "./pages/coin_page/CoinPage";
 import ListPage from "./pages/list_page/ListPage";
+import NewsPage from "./pages/news_page/NewsPage";
 import {store} from "./store";
 import "./index.scss";
 
@@ -16,6 +17,7 @@ createRoot(document.getElementById("root")!).render(
                 <Routes>
                     <Route path={"/"} element={<Navigate to={"/list"} />} />
                     <Route path={"list"} element={<ListPage />} />
+                    <Route path={"news"} element={<NewsPage />} />
                     <Route path={"coin/:name"} element={<CoinPage />} />
                 </Routes>
             </BrowserRouter>
